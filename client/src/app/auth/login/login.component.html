@@ -9,7 +9,7 @@
 						[ngClass]="inputEmail.errors && inputEmail.touched ?  'login__icon fas fa-envelope error-icon' : 'login__icon fas fa-envelope'"></i>
 					<input [ngClass]="inputEmail.errors && inputEmail.touched ?  'input-error' : '' " type="email"
 						class="login__input" name="email" placeholder="Email" ngModel #inputEmail="ngModel" required
-						minlength="10">
+						minlength="10" [email]="validateEmail">
 				</div>
 
 				<ng-container *ngIf="inputEmail.touched">
@@ -19,7 +19,7 @@
 					<p class="error" *ngIf="inputEmail.errors?.['minlength']">
 						Email must be at least {{inputEmail.errors?.['minlength']['requiredLength']}} characters!
 					</p>
-					<p class="error" *ngIf="inputEmail.errors?.['emailValidator']">
+					<p class="error" *ngIf="inputEmail.errors?.['email']">
 						Email is not valid!
 					</p>
 				</ng-container>

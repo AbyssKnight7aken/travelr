@@ -13,6 +13,7 @@ export class LoginComponent {
   constructor(private authService: AuthService, private router: Router, private sessionService: SessionService) { }
 
   errorMesssageFromServer!: string;
+  validateEmail: boolean = true;
 
   loginHandler(loginForm: NgForm): void {
     if (loginForm.invalid) {
@@ -20,13 +21,13 @@ export class LoginComponent {
     }
 
     console.log(loginForm.value);
-    
-    
+
+
     this.authService.login(loginForm.value).subscribe({
       next: (user) => {
         this.sessionService.createSession(user);
         console.log(user);
-        //this.router.navigate(['/themes']);
+        this.router.navigate(['/home']);
       },
       error: (error) => {
         console.log(error.error.message);
