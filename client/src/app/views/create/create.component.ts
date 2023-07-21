@@ -10,6 +10,7 @@ import { ApiService } from 'src/app/services/api.service';
 export class CreateComponent {
   constructor(private apiService: ApiService) { }
 
+  errorMesssageFromServer!: string;
   url: string = '/assets/images/default_image.png';
   selectedFile: any
   fileName: string = '';

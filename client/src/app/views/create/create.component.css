@@ -177,3 +177,19 @@ body {
 .social-login__icon:hover {
 	transform: scale(1.5);	
 }
+
+p.error {
+	text-align: left;
+	border-radius: 0.3em;
+	color: red;
+	padding-top: 0;
+  }
+  
+  .input-error {
+	border-bottom: 2px solid red;
+	
+  }
+
+  .error-icon {
+	color: red;
+  }
