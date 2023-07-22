@@ -43,7 +43,7 @@ logController.post('/', async (req, res) => {
                 "contentType": "image/png",
             },
             "location": req.body.location,
-            //"_ownerId": req.user._id
+            "_ownerId": req.user._id
         };
 
 

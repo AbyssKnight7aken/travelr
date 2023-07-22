@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { Router } from '@angular/router';
 import { ApiService } from 'src/app/services/api.service';
 import { Log } from 'src/app/types/log';
 
@@ -9,15 +10,12 @@ import { Log } from 'src/app/types/log';
   styleUrls: ['./create.component.css']
 })
 export class CreateComponent {
-  constructor(private apiService: ApiService) { }
+  constructor(private apiService: ApiService, private router: Router) { }
 
   errorMesssageFromServer!: string;
   url: string = '/assets/images/default_image.png';
   selectedFile: any
   fileName: string = '';
-
-  //this.selectedFile = <File>event.target.files[0];
-  // console.log(this.selectedFile);
 
   loadFile(event: any): void {
 
@@ -37,7 +35,7 @@ export class CreateComponent {
     }
 
     if (this.selectedFile) {
-      //console.log(this.selectedFile);
+      console.log(this.selectedFile);
       this.fileName = this.selectedFile.name;
     }
 
@@ -50,13 +48,11 @@ export class CreateComponent {
     formData.append('description', form.value.description);
     formData.append('location', form.value.location);
     formData.append('img', this.selectedFile);
-    //console.log(formData.get('name'));
     
-
     this.apiService.create(formData as unknown as Log).subscribe({
       next: (newLog) => {
-        console.log(newLog.img);
-        //this.router.navigate(['/themes']);
+        console.log(newLog);
+        this.router.navigate(['/home']);
       },
       error: (error) => {
         console.log(error);
