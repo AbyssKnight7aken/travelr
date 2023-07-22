@@ -7,14 +7,17 @@ import { CreateComponent } from './views/create/create.component';
 export const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'home', },
   { path: 'home', component: HomeComponent, },
-  { path: 'logs', component: LogsComponent, },
+  // { path: 'logs', component: LogsComponent, },
   {
     path: 'user',
     loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule)
 },
-  { path: 'create', component: CreateComponent, },
-  // { path: 'login', component: LoginComponent, },
-  // { path: 'register', component: RegisterComponent, },
+  // { path: 'create', component: CreateComponent, },
+  {
+    path: 'logs',
+    loadChildren: () => import('./views/views.module').then(m => m.ViewsModule)
+},
+//{path: '**',component: PageNotFoundPageComponent}
 ];
 
 @NgModule({

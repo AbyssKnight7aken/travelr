@@ -5,6 +5,11 @@ import { LogsComponent } from './logs/logs.component';
 import { CreateComponent } from './create/create.component';
 import { SharedModule } from '../shared/shared.module';
 import { FormsModule } from '@angular/forms';
+import { AppRoutingModule } from '../app-routing.module';
+import { DetailsComponent } from './details/details.component';
+import { EditComponent } from './edit/edit.component';
+import { LoginComponent } from '../auth/login/login.component';
+import { LogsRoutingModule } from './logs-routing.module';
 
 
 
@@ -12,12 +17,15 @@ import { FormsModule } from '@angular/forms';
   declarations: [
     HomeComponent,
     LogsComponent,
-    CreateComponent
+    CreateComponent,
+    DetailsComponent,
+    EditComponent
   ],
   imports: [
     CommonModule,
     SharedModule,
-    FormsModule
+    FormsModule,
+    LogsRoutingModule
   ]
 })
 export class ViewsModule { }
