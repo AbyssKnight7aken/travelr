@@ -9,7 +9,10 @@ const { isAuth, auth } = require('../middlewares/authMiddleware')
 const { parseError } = require('../util/parser');
 
 
-
+logController.get('/rescent', async (req, res) => {
+    const logs = await logManager.getRescent();
+    res.json(logs);
+});
 
 logController.get('/', async (req, res) => {
     let items = [];

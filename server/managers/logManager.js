@@ -5,6 +5,11 @@ exports.getAll = async() => {
     return await Log.find({});
 }
 
+exports.getRescent = () => {
+    return Log.find({}).sort({ _id: -1 }).limit(3);
+}
+
+
 exports.getByUserId = async(userId) => {
     return Log.find({ _ownerId: userId });
 }

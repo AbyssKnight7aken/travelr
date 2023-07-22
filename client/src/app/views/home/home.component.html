@@ -7,7 +7,7 @@
 
         <ul class="rescent" *ngIf="rescentLogs">
             <li *ngFor="let log of rescentLogs">
-                <a routerLink="/user/login" >
+                <a routerLink="/logs/{{log._id}}" >
                     <app-card [log]="log" />
                 </a>
             </li>

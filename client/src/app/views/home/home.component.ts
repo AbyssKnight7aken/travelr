@@ -14,7 +14,7 @@ export class HomeComponent {
   rescentLogs!: Log[];
   
   ngOnInit(): void {
-    this.apiService.getLogs().subscribe(
+    this.apiService.getRescentLogs().subscribe(
       {
         next: (logs) => {
           this.rescentLogs = logs;
