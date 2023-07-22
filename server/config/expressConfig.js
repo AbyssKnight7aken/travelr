@@ -5,6 +5,7 @@ const cookieParser = require('cookie-parser');
 
 const { auth } = require('../middlewares/authMiddleware');
 const {useCORS} = require('../middlewares/corsMiddleware');
+const { upload } = require('../middlewares/multer');
 
 function expressConfig(app) {
     //app.use(express.static(path.resolve(__dirname, '../static')));
@@ -14,6 +15,7 @@ function expressConfig(app) {
     app.use(cookieParser());
     app.use(express.json());
     app.use(auth);
+    app.use(upload.single('img'));
 }
 
 module.exports = expressConfig;

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ApiService } from 'src/app/services/api.service';
+import { Log } from 'src/app/types/log';
 
 @Component({
   selector: 'app-create',
@@ -36,25 +37,29 @@ export class CreateComponent {
     }
 
     if (this.selectedFile) {
-      console.log(this.selectedFile);
+      //console.log(this.selectedFile);
       this.fileName = this.selectedFile.name;
     }
 
     form.value.img = this.selectedFile;
-    //console.log(this.selectedFile);
+    console.log(form.value);
 
-    //const formData = new FormData(form);
-    //formData.append('img', this.selectedFile)
+    const formData = new FormData();
+    formData.append('name', form.value.name);
+    formData.append('date', form.value.date);
+    formData.append('description', form.value.description);
+    formData.append('location', form.value.location);
+    formData.append('img', this.selectedFile);
+    //console.log(formData.get('name'));
+    
 
-    //console.log(formData);
-
-    this.apiService.create(form.value).subscribe({
+    this.apiService.create(formData as unknown as Log).subscribe({
       next: (newLog) => {
         console.log(newLog.img);
         //this.router.navigate(['/themes']);
       },
       error: (error) => {
-        console.error(error);
+        console.log(error);
       }
     });
   }

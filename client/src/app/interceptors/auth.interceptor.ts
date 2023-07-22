@@ -27,7 +27,8 @@ export class AddHeaderInterceptor implements HttpInterceptor {
 
     request = request.clone({
       setHeaders: {
-        'Content-Type': 'application/json',
+        // 'Content-Type': 'multipart/form-data; boundary=MyBoundary123',
+        'enctype': 'multipart/form-data'
       }
     });
 

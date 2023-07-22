@@ -19,7 +19,7 @@ export class HeaderComponent {
 
   get user():User {
     const user = this.sessionService.getUserData();
-    console.log(user);
+    //console.log(user);
     return user;
 
   }
@@ -27,14 +27,14 @@ export class HeaderComponent {
   isOpen: boolean = false;
 
   onBtnClick():void {
-    console.log(this.isOpen);
+    //console.log(this.isOpen);
     this.isOpen = !this.isOpen;
   }
 
   logoutHandler(): void {
     this.authService.logout().subscribe({
       next: (data) => {
-        console.log(data);
+        //console.log(data);
         this.sessionService.clearSession();
         this.router.navigate(['/']);
       },

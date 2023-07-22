@@ -29,6 +29,8 @@ body {
  height: 500px;
  position: relative;
  box-shadow: 0 0 50px rgba(0, 0, 0, 0.315);
+ margin-right: 2rem;
+
  .container__info {
   @include bottom;
   bottom: 20%;

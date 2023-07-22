@@ -1,23 +1,14 @@
 const fs = require('fs');
 const path = require('path');
 
-const multer = require("multer");
+
 const logController = require('express').Router();
 
 const logManager = require('../managers/logManager')
 const { isAuth, auth } = require('../middlewares/authMiddleware')
 const { parseError } = require('../util/parser');
 
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-        cb(null, "uploads");
-    },
-    filename: (req, file, cb) => {
-        cb(null,Date.now() + path.extname(file.originalname));
-    },
-});
 
-const upload = multer({ storage: storage }).single('img');
 
 
 logController.get('/', async (req, res) => {
@@ -32,20 +23,13 @@ logController.get('/', async (req, res) => {
 });
 
 //TODO: Turn on Guards and add userId...
-logController.post('/', isAuth, async (req, res) => {
+logController.post('/', async (req, res) => {
+    
 
-    upload(req, res, (err) => {
-        if (err) {
-            console.log(err);
-        }
-        //console.log(req.file.path);
-        console.log(req.file);
-    })
-
-    console.log('=====================================================');
-    console.log(req.body);
+    console.log('====================req.body=================================');
+    console.log(req.body.img);
+    console.log('====================req.file=================================');
     console.log(req.file);
-    console.log('=====================================================');
     try {
 
         //====================================================================
@@ -57,7 +41,7 @@ logController.post('/', isAuth, async (req, res) => {
             "img": {
                 "data": fs.readFileSync("uploads/" + req.file.filename),
                 "contentType": "image/png",
-              },
+            },
             "location": req.body.location,
             //"_ownerId": req.user._id
         };
