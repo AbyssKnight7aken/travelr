@@ -27,7 +27,7 @@ section#hero {
         flex-direction: column;
     }
 
-    section#hero  {
+    section#hero {
         height: auto;
         margin-top: 2rem;
     }
@@ -71,8 +71,8 @@ body {
 
 .container {
     background-repeat: no-repeat;
-    background-position:center;
-    background-size:contain;
+    background-position: center;
+    background-size: contain;
     width: 800px;
     height: 600px;
     position: relative;
@@ -85,12 +85,16 @@ body {
     }
 
     .container__info {
+        background-color: #090909;
         @include bottom;
         bottom: 20%;
         display: flex;
         align-items: flex-end;
         padding: 15px 30px;
         color: $bright-color;
+        opacity: 0.8;
+        display: flex;
+        justify-content: space-between;
 
         span {
             margin-right: 20px;
@@ -98,7 +102,9 @@ body {
 
         i {
             margin-right: 10px;
+            color: #fff;
         }
+
     }
 
     .container__profile {
@@ -121,13 +127,13 @@ body {
         h2 {
             color: #334454;
             font-size: 1.2rem;
-            text-align:left;
+            text-align: left;
         }
 
         p {
             color: #a1b2bc;
             font-size: 0.8rem;
-            text-align:left;
+            text-align: left;
         }
 
         p b {

@@ -13,15 +13,9 @@ export class DetailsComponent implements OnInit {
 
   log:any
 
-  getImageAsBase64(): string {
-    let binary = '';
-    const bytes = new Uint8Array(this.log.img.data.data);
+  like(): void {
+    console.log('like');
     
-    const len = bytes.byteLength;
-    for (let i = 0; i < len; i++) {
-      binary += String.fromCharCode(bytes[i]);
-    }
-    return btoa(binary);
   }
 
   ngOnInit(): void {
@@ -39,5 +33,16 @@ export class DetailsComponent implements OnInit {
         }
       }
     );
+  }
+
+  getImageAsBase64(): string {
+    let binary = '';
+    const bytes = new Uint8Array(this.log.img.data.data);
+    
+    const len = bytes.byteLength;
+    for (let i = 0; i < len; i++) {
+      binary += String.fromCharCode(bytes[i]);
+    }
+    return btoa(binary);
   }
 }
