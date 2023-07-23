@@ -2,11 +2,11 @@ const Log = require('../models/Log');
 
 
 exports.getAll = async() => {
-    return await Log.find({});
+    return await Log.find({}).populate('_ownerId');
 }
 
 exports.getRescent = () => {
-    return Log.find({}).sort({ _id: -1 }).limit(3);
+    return Log.find({}).sort({ _id: -1 }).limit(3).populate('_ownerId');
 }
 
 
@@ -15,7 +15,8 @@ exports.getByUserId = async(userId) => {
 }
 
 exports.getById = async(id) => {
-    return Log.findById(id);
+    const log = Log.findById(id).populate('_ownerId');
+    return log;
 }
 
 exports.create = async(item) => {

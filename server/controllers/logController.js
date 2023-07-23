@@ -68,6 +68,7 @@ logController.post('/', async (req, res) => {
 
 logController.get('/:id', async (req, res, next) => {
     const item = await logManager.getById(req.params.id);
+    console.log(item);
     res.json(item);
 });
 
