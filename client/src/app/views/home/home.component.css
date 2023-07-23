@@ -16,7 +16,7 @@ section#hero {
 
 .rescent {
     display: flex;
-    margin-top: 1rem;
+    margin-top: 2rem;
     justify-content: center;
     align-items: center;
 }
