@@ -1,0 +1,157 @@
+/* HERO */
+section#hero {
+    height: calc(100vh - 60px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: #fff;
+}
+
+#hero h1 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+.rescent {
+    display: flex;
+    margin-top: 2rem;
+    justify-content: center;
+    align-items: center;
+}
+
+/* RESPONSIVE */
+@media (max-width: 992px) {
+    .rescent {
+        flex-direction: column;
+    }
+
+    section#hero  {
+        height: auto;
+        margin-top: 2rem;
+    }
+
+    .dropdown_menu {
+        display: block;
+    }
+}
+
+@media (max-width: 576px) {
+    .container {
+        left: 2rem;
+        width: unset;
+    }
+}
+
+//CARD IMAGE
+$bright-color: #fff;
+
+@mixin bottom {
+    position: absolute;
+    right: 0;
+    left: 0;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #80afcd;
+    font-family: Arial, Helvetica, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    line-height: 1.4;
+}
+
+.container {
+    background-repeat: no-repeat;
+    background-position:center;
+    background-size:contain;
+    width: 800px;
+    height: 600px;
+    position: relative;
+    box-shadow: 0 0 50px rgba(0, 0, 0, 0.315);
+
+
+    .image {
+        background-position: center;
+        object-fit: cover
+    }
+
+    .container__info {
+        @include bottom;
+        bottom: 20%;
+        display: flex;
+        align-items: flex-end;
+        padding: 15px 30px;
+        color: $bright-color;
+
+        span {
+            margin-right: 20px;
+        }
+
+        i {
+            margin-right: 10px;
+        }
+    }
+
+    .container__profile {
+        background-color: #e4f2fd;
+        display: flex;
+        align-items: center;
+        padding: 20px;
+        @include bottom();
+        bottom: 0;
+
+        img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-position: center;
+            object-fit: cover;
+            margin-right: 10px;
+        }
+
+        h2 {
+            color: #334454;
+            font-size: 1.2rem;
+            text-align:left;
+        }
+
+        p {
+            color: #a1b2bc;
+            font-size: 0.8rem;
+            text-align:left;
+        }
+
+        p b {
+            font-style: italic;
+        }
+    }
+
+
+
+}
+
+.container:active,
+.container:focus,
+.container:hover {
+    outline: none;
+    border-bottom-color: #809e67;
+}
+
+.container:hover {
+    transform: scale(1.1);
+}
+
+@media (max-width: 992px) {
+    .container {
+        margin-bottom: 2rem;
+    }
+}
