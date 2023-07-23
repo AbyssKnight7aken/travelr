@@ -21,6 +21,11 @@ export class ApiService {
     const {appUrl} = environment;
     return this.http.get<Log[]>(`${appUrl}/logs/rescent`);
   }
+
+  getDetails(id:any) {
+    const {appUrl} = environment;
+    return this.http.get<any>(`${appUrl}/logs/${id}`);
+  }
   
   getPosts(limit?: number) {
     const {appUrl} = environment;
