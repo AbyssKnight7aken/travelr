@@ -7,13 +7,13 @@ const jwt = require('../lib/jwt');
 const { SECRET } = require('../config/config');
 
 
-exports.register = async (username, email, password) => {
+exports.register = async (username, email, password, img) => {
     const existing = await User.findOne({ email }).collation({ locale: 'en', strength: 2 });
     if (existing) {
         throw new Error('Email is taken!');
     }
 
-    const user = await User.create({username, email, password });
+    const user = await User.create({ username, email, password, img });
     const result = createToken(user);
     return result;
 };
@@ -25,7 +25,7 @@ exports.login = async ({ email, password }) => {
         throw new Error('Invalid username or password!');
     }
 
-    console.log( password, user.password);
+    console.log(password, user.password);
     const isValid = await bcrypt.compare(password, user.password);
 
     if (!isValid) {
@@ -37,7 +37,7 @@ exports.login = async ({ email, password }) => {
 };
 
 exports.logout = async (token) => {
-    TokensBlacklist.create({token});
+    TokensBlacklist.create({ token });
 }
 
 async function createToken(user) {
@@ -60,7 +60,7 @@ async function createToken(user) {
 }
 
 exports.parseToken = async (token) => {
-    const tokens = await TokensBlacklist.find({token});
+    const tokens = await TokensBlacklist.find({ token });
 
     if (tokens.length > 0) {
         throw new Error('Token is blacklisted!');

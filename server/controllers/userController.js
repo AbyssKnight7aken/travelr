@@ -2,6 +2,9 @@ const userController = require('express').Router();
 const { body, validationResult } = require('express-validator');
 const { parseError } = require('../util/parser');
 
+const fs = require('fs');
+const path = require('path');
+
 const userManager = require('../managers/userManager');
 
 
@@ -17,7 +20,13 @@ userController.post('/register',
             if (errors.length > 0) {
                 throw errors;
             }
-            const result = await userManager.register(req.body.username, req.body.email, req.body.password);
+
+            const img = {
+                "data": fs.readFileSync("uploads/" + req.file.filename),
+                "contentType": "image/png",
+            }
+
+            const result = await userManager.register(req.body.username, req.body.email, req.body.password, img);
             res.cookie('token', result.accessToken);
             res.json(result);
         } catch (err) {
