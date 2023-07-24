@@ -12,6 +12,9 @@ import { Router } from '@angular/router';
 export class HomeComponent {
   constructor(private apiService: ApiService, private router: Router) { }
   rescentLogs!: Log[];
+
+  // avatar = this.getImageAsBase64(this.log._ownerId.img.data.data);
+  // image = this.getImageAsBase64(this.log.img.data.data);
   
   ngOnInit(): void {
     this.apiService.getRescentLogs().subscribe(
