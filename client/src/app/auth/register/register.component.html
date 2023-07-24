@@ -67,9 +67,9 @@
 				<div class="login__field">
 					<i
 						[ngClass]="inputRePass.errors && inputRePass.touched ?  'login__icon fas fa-lock envelope error-icon' : 'login__icon fas fa-lock'"></i>
-					<input [ngClass]="inputRePass.errors && inputRePass.touched ?  'input-error' : '' "
-						type="password" class="login__input" name="repass" placeholder=" Repeat Password" ngModel
-						#inputRePass="ngModel" required minlength="6">
+					<input [ngClass]="inputRePass.errors && inputRePass.touched ?  'input-error' : '' " type="password"
+						class="login__input" name="repass" placeholder=" Repeat Password" ngModel #inputRePass="ngModel"
+						required minlength="6">
 				</div>
 
 				<ng-container *ngIf="inputRePass.touched">
@@ -82,6 +82,22 @@
 					</p>
 					<p class="error" *ngIf="inputRePass.value != inputPassword.value ">
 						Passwords do not match!
+					</p>
+				</ng-container>
+
+				<!-- IMAGE -->
+				<div class="login__field">
+					<i
+						[ngClass]="inputImage.errors && inputImage.touched ?  'login__icon fa-solid fa-file-image error-icon' : 'login__icon fa-solid fa-file-image'"></i>
+					<input
+						[ngClass]="inputImage.errors && inputImage.touched ?  'login__input input-error' : 'login__input' "
+						type="file" id="image" name="img" ngModel #inputImage="ngModel" (change)="loadFile($event)"
+						placeholder="Image">
+				</div>
+
+				<ng-container *ngIf="inputImage.touched">
+					<p class="error" *ngIf="inputImage.errors?.['required']">
+						Image is required!
 					</p>
 				</ng-container>
 
@@ -111,4 +127,11 @@
 			<span class="screen__background__shape screen__background__shape1"></span>
 		</div>
 	</div>
+	<ng-container *ngIf="selectedFile">
+		<div class="screen">
+			<div class="login">
+				<img style="width: 320px" id="output" [src]="url" alt="Image">
+			</div>
+		</div>
+	</ng-container>
 </div>
