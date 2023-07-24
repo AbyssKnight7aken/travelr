@@ -19,12 +19,13 @@ exports.register = async (username, email, password) => {
 };
 
 exports.login = async ({ email, password }) => {
-    const user = await User.findOne({ email }).collation({ locale: 'en', strength: 2 });
+    const user = await User.findOne({ email }).select('+password').collation({ locale: 'en', strength: 2 });
 
     if (!user) {
         throw new Error('Invalid username or password!');
     }
 
+    console.log( password, user.password);
     const isValid = await bcrypt.compare(password, user.password);
 
     if (!isValid) {
