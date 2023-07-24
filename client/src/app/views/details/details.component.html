@@ -2,7 +2,7 @@
     <section id="hero">
         <div class="rescent">
             <div class="container"
-                [ngStyle]="{ 'background-image': 'url(' + 'data:image/png;base64,' + getImageAsBase64() + ')'}">
+                [ngStyle]="{ 'background-image': 'url(' + 'data:image/png;base64,' + image + ')'}">
                 <div class="container__info">
                     <div class="actions">
                         <span (click)="like()"><i class="fas fa-heart"></i>2350</span>
@@ -15,8 +15,7 @@
                     </div>
                 </div>
                 <div class="container__profile">
-                    <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80"
-                        alt="people" />
+                    <img [ngStyle]="{ 'background-image': 'url(' + 'data:image/png;base64,' + avatar + ')'}" />
                     <div class="container__profile__text">
                         <h2>{{log.name}}</h2>
                         <p>by <b>{{log._ownerId.username}}</b></p>
