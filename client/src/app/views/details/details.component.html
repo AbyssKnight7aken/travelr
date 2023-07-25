@@ -1,11 +1,11 @@
 <main>
     <section id="hero">
         <div class="rescent">
-            <div class="container"
-                [ngStyle]="{ 'background-image': 'url(' + 'data:image/png;base64,' + image + ')'}">
+            <div class="container" [ngStyle]="{ 'background-image': 'url(' + 'data:image/png;base64,' + image + ')'}">
                 <div class="container__info">
                     <div class="actions">
-                        <span (click)="like()"><i class="fas fa-heart"></i>2350</span>
+                        <span *ngIf="!isOwner" (click)="like()"><i class="fas fa-heart"></i>2350</span>
+                        <span *ngIf="isOwner" ><i class="fas fa-heart"></i>2350</span>
                         <span><i class="fas fa-comment-alt"></i>624</span>
                         <span><i class="fas fa-download"></i>1470</span>
                     </div>
