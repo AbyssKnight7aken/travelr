@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const moment = require('moment');
 
 
 const logController = require('express').Router();
@@ -39,7 +40,7 @@ logController.post('/', async (req, res) => {
 
         const data = {
             "name": req.body.name,
-            "date": req.body.date,
+            "date": moment(req.body.date).format('LLLL'),
             "description": req.body.description,
             "img": {
                 "data": fs.readFileSync("uploads/" + req.file.filename),
