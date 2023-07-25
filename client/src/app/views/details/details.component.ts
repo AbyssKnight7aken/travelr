@@ -11,7 +11,7 @@ import { DomSanitizer } from '@angular/platform-browser';
   styleUrls: ['./details.component.scss']
 })
 export class DetailsComponent implements OnInit {
-  constructor(private apiService: ApiService, private router: Router, private activatedRoute: ActivatedRoute, private sanitizer: DomSanitizer) { }
+  constructor(private apiService: ApiService, private router: Router, private activatedRoute: ActivatedRoute) { }
 
   log:any
   avatar:string | undefined;

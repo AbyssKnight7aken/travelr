@@ -103,6 +103,12 @@
 					</p>
 				</ng-container>
 
+				<ng-container *ngIf="errorMesssageFromServer">
+					<p class="error">
+						{{errorMesssageFromServer}}
+					</p>
+				</ng-container>
+
 				<button [disabled]="form.invalid" class="button login__submit">
 					<span class="button__text">Create</span>
 					<i class="button__icon fas fa-chevron-right"></i>

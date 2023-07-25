@@ -55,7 +55,8 @@ export class CreateComponent {
         this.router.navigate(['/home']);
       },
       error: (error) => {
-        console.log(error);
+        console.log(error.error.message);
+        this.errorMesssageFromServer = error.error.message;
       }
     });
   }
