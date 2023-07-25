@@ -9,9 +9,9 @@
                         <span><i class="fas fa-comment-alt"></i>624</span>
                         <span><i class="fas fa-download"></i>1470</span>
                     </div>
-                    <div class="owner">
-                        <a routerLink="#"><i class="fas fa-pen-to-square"></i></a>
-                        <a routerLink="#"><i class="fas fa-trash"></i></a>
+                    <div *ngIf="isOwner" class="owner">
+                        <a routerLink="/logs/{{log._id}}/edit"><i class="fas fa-pen-to-square"></i></a>
+                        <a href="javascript:void(0)" (click)="deleteLog(log._id)"><i class="fas fa-trash"></i></a>
                     </div>
                 </div>
                 <div class="container__profile">

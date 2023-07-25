@@ -33,6 +33,10 @@ export class ApiService {
     return this.http.put<any>(`${this.appUrl}/logs/${id}`, body);
   }
 
+  deleteByLogId(id: string) {
+    return this.http.delete<any>(`${this.appUrl}/logs/${id}`);
+  }
+
   // getPosts(limit?: number) {
     
   //   const {appUrl} = environment;

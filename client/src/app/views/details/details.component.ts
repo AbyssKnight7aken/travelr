@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from 'src/app/services/api.service';
 import { Log } from 'src/app/types/log';
-import { NgOptimizedImage } from '@angular/common'
-import { DomSanitizer } from '@angular/platform-browser';
+import { SessionService } from 'src/app/services/session.service';
+import { User } from 'src/app/types/user';
 
 @Component({
   selector: 'app-details',
@@ -11,15 +11,27 @@ import { DomSanitizer } from '@angular/platform-browser';
   styleUrls: ['./details.component.scss']
 })
 export class DetailsComponent implements OnInit {
-  constructor(private apiService: ApiService, private router: Router, private activatedRoute: ActivatedRoute) { }
+  constructor(private apiService: ApiService, private router: Router, private activatedRoute: ActivatedRoute, private sessionService: SessionService) { }
 
-  log:any
-  avatar:string | undefined;
-  image:string | undefined;
+  get isLoggedIn(): boolean {
+    return this.sessionService.hasUser;
+  }
+
+  get user():User {
+    const user = this.sessionService.getUserData();
+    console.log(user._id);
+    return user;
+
+  }
+  
+  log: any
+  avatar: string | undefined;
+  image: string | undefined;
+  isOwner:Boolean = false;
 
   like(): void {
     console.log('like');
-    
+
   }
 
   ngOnInit(): void {
@@ -30,8 +42,9 @@ export class DetailsComponent implements OnInit {
           this.log = result;
           this.avatar = this.getImageAsBase64(this.log._ownerId.img.data.data);
           this.image = this.getImageAsBase64(this.log.img.data.data);
-          //this.avatar = this.sanitizer.bypassSecurityTrustResourceUrl(`data:image/png;base64, ${this.log._ownerId.img.data.data}`);
-          
+          this.user;
+          this.isOwner = this.user._id === this.log._ownerId._id;
+          console.log(this.isOwner);
           console.log(this.log);
         },
         error: (err) => {
@@ -41,14 +54,24 @@ export class DetailsComponent implements OnInit {
     );
   }
 
-  getImageAsBase64(file:any): string {
+  getImageAsBase64(file: any): string {
     let binary = '';
     const bytes = new Uint8Array(file);
-    
+
     const len = bytes.byteLength;
     for (let i = 0; i < len; i++) {
       binary += String.fromCharCode(bytes[i]);
     }
     return btoa(binary);
   }
+
+  deleteLog(LogId: string) {
+    this.apiService.deleteByLogId(LogId).subscribe({
+      error: (err) => {
+        console.error(`Error: ${err}`);
+      },
+      complete: () => this.router.navigate(['home'])
+    });
+}
+
 }

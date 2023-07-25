@@ -77,17 +77,8 @@ export class EditComponent implements OnInit {
 
     const blob = new Blob(byteArrays, { type: 'image/jpeg' });
 
-    // Create a File object with the image data
     const file = new File([blob], filename, { type: 'image/jpeg' });
     return file;
-    // Now you can use the 'file' variable to upload the image or perform other operations.
-    // For example, you can use FormData to upload the file to the server:
-    // const formData = new FormData();
-    // formData.append('imageFile', file);
-    // Then use HttpClient to send the formData to the server.
-
-    // Note: The above code assumes the image data is in JPEG format. If the image data is in a different format,
-    // make sure to adjust the 'type' parameter accordingly.
   }
 
   editHandler(editForm: NgForm) {
@@ -99,14 +90,11 @@ export class EditComponent implements OnInit {
     const formData = new FormData();
 
     if (this.selectedFile) {
-      console.log(this.selectedFile);
       this.fileName = this.selectedFile.name;
       formData.append('img', this.selectedFile);
     } else {
-
-      this.selectedFile = this.convertToImageFile(this.getImageAsBase64(), editForm.value.name)
+      this.selectedFile = this.convertToImageFile(this.getImageAsBase64(), editForm.value.name);
       formData.append('img', this.selectedFile);
-      console.log(this.selectedFile);
     }
 
     formData.append('name', editForm.value.name);
@@ -127,4 +115,3 @@ export class EditComponent implements OnInit {
   }
 
 }
-

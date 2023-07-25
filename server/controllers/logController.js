@@ -28,19 +28,12 @@ logController.get('/', async (req, res) => {
 
 //TODO: Turn on Guards and add userId...
 logController.post('/', async (req, res) => {
-    
 
-    console.log('====================req.body=================================');
-    console.log(req.body.img);
-    console.log('====================req.file=================================');
-    console.log(req.file);
     try {
-
-        //====================================================================
 
         const data = {
             "name": req.body.name,
-            "date": moment(req.body.date).format('LLLL'),
+            "date": moment(req.body.date).format('LLLL').toString(),
             "description": req.body.description,
             "img": {
                 "data": fs.readFileSync("uploads/" + req.file.filename),
@@ -69,7 +62,7 @@ logController.post('/', async (req, res) => {
 
 logController.get('/:id', async (req, res, next) => {
     const item = await logManager.getById(req.params.id);
-    console.log(item);
+    //console.log(item);
     res.json(item);
 });
 
@@ -98,7 +91,7 @@ logController.put('/:id', isAuth, async (req, res, next) => {
         const updatedLog = await logManager.update(req.params.id, data);
         console.log('updated!');
         res.json(updatedLog);
-        
+
     } catch (err) {
         const message = parseError(err);
         console.log(message);
@@ -108,7 +101,7 @@ logController.put('/:id', isAuth, async (req, res, next) => {
 
 logController.delete('/:id', isAuth, async (req, res) => {
     const item = await logManager.getById(req.params.id);
-    if (req.user._id != item._ownerId) {
+    if (req.user._id != item._ownerId._id.toString()) {
         return res.status(403).json({ message: 'You cannot modify this record' });
     }
 
