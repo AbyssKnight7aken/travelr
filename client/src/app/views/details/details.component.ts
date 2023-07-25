@@ -11,7 +11,7 @@ import { User } from 'src/app/types/user';
   styleUrls: ['./details.component.scss']
 })
 export class DetailsComponent implements OnInit {
-  constructor(private apiService: ApiService, private router: Router, private activatedRoute: ActivatedRoute, private sessionService: SessionService) { }
+  constructor(private apiService: ApiService, private router: Router, private activatedRoute: ActivatedRoute, private sessionService: SessionService, ) { }
 
   get isLoggedIn(): boolean {
     return this.sessionService.hasUser;

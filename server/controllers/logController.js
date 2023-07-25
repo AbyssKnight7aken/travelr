@@ -33,7 +33,7 @@ logController.post('/', async (req, res) => {
 
         const data = {
             "name": req.body.name,
-            "date": moment(req.body.date).format('LLLL').toString(),
+            "date": moment(req.body.date).format('MMMM Do YYYY, h:mm:ss a'),
             "description": req.body.description,
             "img": {
                 "data": fs.readFileSync("uploads/" + req.file.filename),
@@ -78,7 +78,7 @@ logController.put('/:id', isAuth, async (req, res, next) => {
 
         const data = {
             "name": req.body.name,
-            "date": moment(req.body.date).format('LLLL'),
+            "date": moment(req.body.date).format('MMMM Do YYYY, h:mm:ss a'),
             "description": req.body.description,
             "img": {
                 "data": fs.readFileSync("uploads/" + req.file.filename),

@@ -8,7 +8,7 @@ const LogSchema = new mongoose.Schema({
         maxLength: [20, 'The name should not be more than 20 characters long!'],
     },
     date: {
-        type: Date,
+        type: String,
         required: [true, 'Date is required!'],
     },
     description: {

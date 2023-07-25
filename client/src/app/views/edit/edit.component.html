@@ -32,7 +32,7 @@
                     <i
                         [ngClass]="inputDate.errors && inputDate.touched ?  'login__icon fa-solid fa-calendar error-icon' : 'login__icon fa-solid fa-calendar'"></i>
                     <input [ngClass]="inputDate.errors && inputDate.touched ?  'input-error' : '' " type="date"
-                        class="login__input" name="date" placeholder="Date" ngModel #inputDate="ngModel" required [ngModel]="log.date">
+                        class="login__input" name="date" placeholder="Date" ngModel #inputDate="ngModel" required [ngModel]="date">
                 </div>
 
                 <ng-container *ngIf="inputDate.touched">

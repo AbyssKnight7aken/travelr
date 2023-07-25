@@ -11,6 +11,7 @@ import { AuthModule } from './auth/auth.module';
 import { LoginComponent } from './auth/login/login.component';
 import { ViewsModule } from './views/views.module';
 import { AddHeaderInterceptor } from './interceptors/auth.interceptor';
+import { DatePipe } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { AddHeaderInterceptor } from './interceptors/auth.interceptor';
   ],
 
   providers: [
+    DatePipe,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AddHeaderInterceptor,
