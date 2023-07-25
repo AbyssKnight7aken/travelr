@@ -47,8 +47,8 @@ export class DetailsComponent implements OnInit {
           console.log(this.isOwner);
           console.log(this.log);
         },
-        error: (err) => {
-          console.error(`Error: ${err}`);
+        error: (error) => {
+          console.log(error.error.message);
         }
       }
     );
@@ -67,8 +67,8 @@ export class DetailsComponent implements OnInit {
 
   deleteLog(LogId: string) {
     this.apiService.deleteByLogId(LogId).subscribe({
-      error: (err) => {
-        console.error(`Error: ${err}`);
+      error: (error) => {
+        console.log(error.error.message);
       },
       complete: () => this.router.navigate(['home'])
     });

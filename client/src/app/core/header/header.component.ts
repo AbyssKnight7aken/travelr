@@ -39,7 +39,7 @@ export class HeaderComponent {
         this.router.navigate(['/']);
       },
       error: (error) => {
-        console.error(error);
+        console.log(error.error.message);
       }
     });
   }

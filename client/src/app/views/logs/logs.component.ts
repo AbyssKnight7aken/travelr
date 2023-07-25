@@ -15,8 +15,8 @@ export class LogsComponent implements OnInit {
         next: (logs) => {
           console.log({ logs });
         },
-        error: (err) => {
-          console.error(`Error: ${err}`);
+        error: (error) => {
+          console.log(error.error.message);
         }
       }
     );

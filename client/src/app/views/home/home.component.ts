@@ -23,8 +23,8 @@ export class HomeComponent {
           this.rescentLogs = logs;
           console.log(this.rescentLogs);
         },
-        error: (err) => {
-          console.error(`Error: ${err}`);
+        error: (error) => {
+          console.log(error.error.message);
         }
       }
     );
