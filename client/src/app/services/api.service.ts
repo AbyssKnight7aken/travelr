@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from 'src/environments/environment.development';
 import { Log } from '../types/log';
 import { Post } from '../types/post';
@@ -9,35 +9,36 @@ import { Post } from '../types/post';
 })
 export class ApiService {
   constructor(private http: HttpClient) { }
-
-  headers = new HttpHeaders({ 'Content-Type': 'multipart/form-data', 'enctype': 'multipart/form-data'});
+  appUrl = environment.appUrl;
+  // headers = new HttpHeaders({ 'Content-Type': 'multipart/form-data', 'enctype': 'multipart/form-data'});
 
   getLogs() {
-    const {appUrl} = environment;
-    return this.http.get<Log[]>(`${appUrl}/logs`);
+    return this.http.get<Log[]>(`${this.appUrl}/logs`);
   }
 
   getRescentLogs() {
-    const {appUrl} = environment;
-    return this.http.get<Log[]>(`${appUrl}/logs/rescent`);
+    return this.http.get<Log[]>(`${this.appUrl}/logs/rescent`);
   }
 
-  getDetails(id:any) {
-    const {appUrl} = environment;
-    return this.http.get<any>(`${appUrl}/logs/${id}`);
-  }
-  
-  getPosts(limit?: number) {
-    const {appUrl} = environment;
-    const limitFilter = limit ? `?limit=${limit}` : '';
-    return this.http.get<Post[]>(`${appUrl}/posts${limitFilter}`);
+  getDetails(id: any) {
+    return this.http.get<any>(`${this.appUrl}/logs/${id}`);
   }
 
   create(body: Log) {
-    const {appUrl} = environment;
     //return this.http.post<Log>(`${appUrl}/logs`, body, { headers: this.headers});
-    return this.http.post<Log>(`${appUrl}/logs`, body);
+    return this.http.post<Log>(`${this.appUrl}/logs`, body);
   }
+
+  edit(id: string, body: Log) {
+    return this.http.put<any>(`${this.appUrl}/logs/${id}`, body);
+  }
+
+  // getPosts(limit?: number) {
+    
+  //   const {appUrl} = environment;
+  //   const limitFilter = limit ? `?limit=${limit}` : '';
+  //   return this.http.get<Post[]>(`${appUrl}/posts${limitFilter}`);
+  // }
 
   // addTheme$(body: { themeName: string, postText: string }): Observable<ITheme> {
   //   return this.http.post<ITheme>(`${apiUrl}/themes`, body, { withCredentials: true });

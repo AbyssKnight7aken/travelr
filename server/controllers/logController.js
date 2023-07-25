@@ -75,13 +75,30 @@ logController.get('/:id', async (req, res, next) => {
 
 logController.put('/:id', isAuth, async (req, res, next) => {
     const item = await logManager.getById(req.params.id);
-    if (req.user._id != item._ownerId) {
+    console.log('req.user', req.user._id);
+    console.log('item._ownerId', item._ownerId._id.toString());
+    if (req.user._id != item._ownerId._id.toString()) {
         return res.status(403).json({ message: 'You cannot modify this record' });
     }
 
     try {
-        const result = await logManager.update(req.params.id, req.body);
-        res.json(result);
+
+        const data = {
+            "name": req.body.name,
+            "date": moment(req.body.date).format('LLLL'),
+            "description": req.body.description,
+            "img": {
+                "data": fs.readFileSync("uploads/" + req.file.filename),
+                "contentType": "image/png",
+            },
+            "location": req.body.location,
+            "_ownerId": req.user._id
+        };
+
+        const updatedLog = await logManager.update(req.params.id, data);
+        console.log('updated!');
+        res.json(updatedLog);
+        
     } catch (err) {
         const message = parseError(err);
         console.log(message);

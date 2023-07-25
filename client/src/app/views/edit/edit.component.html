@@ -135,7 +135,7 @@
             <div class="login">
                 <img *ngIf="selectedFile" style="width: 320px" id="output" [src]="url" alt="Image">
                 <!-- <img id="output" [ngStyle]="{ 'background-image': 'url(' + 'data:image/png;base64,' + getImageAsBase64() + ')'}" /> -->
-                <img *ngIf="!selectedFile" style="width: 320px" id="output" [src]="'data:image/jpeg;base64,' + image" alt="Image from server">
+                <img *ngIf="!selectedFile" style="width: 320px" id="output" [src]="'data:image/png;base64,' + image" alt="Image from server">
 
             </div>
         </div>
