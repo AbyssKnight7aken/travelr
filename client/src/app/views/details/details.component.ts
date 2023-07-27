@@ -24,10 +24,11 @@ export class DetailsComponent implements OnInit {
 
   }
   
-  log: any
+  log!: Log | null; 
   avatar: string | undefined;
   image: string | undefined;
   isOwner:Boolean = false;
+  logId!: string;
 
   like(): void {
     console.log('like');
@@ -35,15 +36,15 @@ export class DetailsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const id = this.activatedRoute.snapshot.params['logId'];
-    this.apiService.getDetails(id).subscribe(
+    this.logId = this.activatedRoute.snapshot.params['logId'];
+    this.apiService.getDetails(this.logId).subscribe(
       {
         next: (result) => {
           this.log = result;
-          this.avatar = this.getImageAsBase64(this.log._ownerId.img.data.data);
-          this.image = this.getImageAsBase64(this.log.img.data.data);
+          this.avatar = this.getImageAsBase64(this.log?._ownerId.img.data.data);
+          this.image = this.getImageAsBase64(this.log?.img.data.data);
           this.user;
-          this.isOwner = this.user._id === this.log._ownerId._id;
+          this.isOwner = this.user._id === this.log?._ownerId._id;
           console.log(this.isOwner);
           console.log(this.log);
         },
@@ -65,8 +66,8 @@ export class DetailsComponent implements OnInit {
     return btoa(binary);
   }
 
-  deleteLog(LogId: string) {
-    this.apiService.deleteByLogId(LogId).subscribe({
+  deleteLog(id: any) {
+    this.apiService.deleteByLogId(this.logId).subscribe({
       error: (error) => {
         console.log(error.error.message);
       },

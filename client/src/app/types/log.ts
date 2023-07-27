@@ -4,7 +4,11 @@ export interface Log {
   name: string;
   date: string;
   description: string;
-  img: File;
+  img: {
+    data: {
+      data: Node
+    }
+  };
   location: string;
   _id?: string;
   _ownerId: User;

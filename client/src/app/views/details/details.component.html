@@ -10,18 +10,18 @@
                         <span><i class="fas fa-download"></i>1470</span>
                     </div>
                     <div *ngIf="isOwner" class="owner">
-                        <a routerLink="/logs/{{log._id}}/edit"><i class="fas fa-pen-to-square"></i></a>
-                        <a href="javascript:void(0)" (click)="deleteLog(log._id)"><i class="fas fa-trash"></i></a>
+                        <a routerLink="/logs/{{log?._id}}/edit"><i class="fas fa-pen-to-square"></i></a>
+                        <a href="javascript:void(0)" (click)="deleteLog(log?._id)"><i class="fas fa-trash"></i></a>
                     </div>
                 </div>
                 <div class="container__profile">
                     <img [ngStyle]="{ 'background-image': 'url(' + 'data:image/png;base64,' + avatar + ')'}" />
                     <div class="container__profile__text">
-                        <h2>{{log.name}}</h2>
-                        <p>by <b>{{log._ownerId.username}}</b></p>
-                        <p>{{log.date}}</p>
-                        <p>{{log.location}}</p>
-                        <p>{{log.description}}</p>
+                        <h2>{{log?.name}}</h2>
+                        <p>by <b>{{log?._ownerId?.username}}</b></p>
+                        <p>{{log?.date}}</p>
+                        <p>{{log?.location}}</p>
+                        <p>{{log?.description}}</p>
                     </div>
                 </div>
             </div>
