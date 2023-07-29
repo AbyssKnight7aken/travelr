@@ -40,6 +40,8 @@ export class HeaderComponent {
       },
       error: (error) => {
         console.log(error.error.message);
+        this.sessionService.clearSession();
+        this.router.navigate(['/']);
       }
     });
   }
