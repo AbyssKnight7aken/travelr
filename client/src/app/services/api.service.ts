@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from 'src/environments/environment.development';
 import { Log } from '../types/log';
 import { Post } from '../types/post';
+import { Observable } from 'rxjs/internal/Observable';
 
 @Injectable({
   providedIn: 'root'
@@ -22,6 +23,10 @@ export class ApiService {
 
   getDetails(id: any) {
     return this.http.get<any>(`${this.appUrl}/logs/${id}`);
+  }
+
+  getUserLogs(userId: string): Observable<Log[]> {
+    return this.http.get<Log[]>(`${this.appUrl}/logs?where=_ownerId%3D%22${userId}%22`);
   }
 
   create(body: Log) {
