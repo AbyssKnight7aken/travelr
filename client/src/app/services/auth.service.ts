@@ -13,12 +13,6 @@ export class AuthService {
 
   constructor(private httpClient: HttpClient, private sessionService: SessionService) { }
 
-  //token: any = this.sessionService.getToken();
-  //headers = new HttpHeaders({ 'x-authorization': this.token.accessToken });
-  //   if (this.token != null) {
-  //     options.headers['X-Authorization'] = token;
-  // }
-
   register(userData: createUserData): Observable<User> {
     return this.httpClient.post<User>(`${environment.appUrl}/users/register`, userData);
   }
@@ -29,5 +23,9 @@ export class AuthService {
 
   logout() {
     return this.httpClient.get(`${environment.appUrl}/users/logout`);
+  }
+
+  getUserInfo(): Observable<User> {
+    return this.httpClient.get<User>(`${environment.appUrl}/users/profile`);
   }
 }

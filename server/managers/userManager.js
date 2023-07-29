@@ -36,6 +36,17 @@ exports.login = async ({ email, password }) => {
     return result;
 };
 
+exports.getUserInfo = async (email) => {
+    const user = await User.findOne({ email }).collation({ locale: 'en', strength: 2 });
+
+    if (!user) {
+        throw new Error('Unexisting User!');
+    }
+
+    console.log(user);
+    return user;
+};
+
 exports.logout = async (token) => {
     TokensBlacklist.create({ token });
 }
@@ -45,7 +56,7 @@ async function createToken(user) {
     const payload = {
         _id: user._id,
         username: user.username,
-        email: user.email
+        email: user.email,
     }
 
     const token = await jwt.sign(payload, SECRET, { expiresIn: '2d' });
