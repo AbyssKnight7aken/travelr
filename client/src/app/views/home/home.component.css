@@ -14,6 +14,10 @@ section#hero {
     margin-bottom: 1rem;
 }
 
+ul {
+    list-style-type: none;
+}
+
 .rescent {
     display: flex;
     margin-top: 2rem;

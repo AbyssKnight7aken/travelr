@@ -1,6 +1,6 @@
 /* HERO */
 section#hero {
-    height: calc(100vh - 60px);
+    /* height: calc(100vh - 60px); */
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -11,5 +11,40 @@ section#hero {
 
 #hero h1 {
     font-size: 3rem;
-    margin-bottom: 1rem;
+    margin-top: 5rem;
 }
+
+#hero > ul {
+    position:inherit;
+    margin-top: 5rem;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.rescent > li {
+    list-style: none;
+    margin-bottom: 3rem;
+}
+
+    /* RESPONSIVE */
+    @media (max-width: 992px) {
+        .rescent {
+            flex-direction: column;
+        }
+
+        section#hero {
+            height: auto;
+            margin-top: 2rem;
+        }
+
+        .dropdown_menu {
+            display: block;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .container {
+            left: 2rem;
+            width: unset;
+        }
+    }
