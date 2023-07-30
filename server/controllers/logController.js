@@ -75,8 +75,8 @@ logController.get('/:id', async (req, res, next) => {
 
 logController.put('/:id', isAuth, async (req, res, next) => {
     const item = await logManager.getById(req.params.id);
-    console.log('req.user', req.user._id);
-    console.log('item._ownerId', item._ownerId._id.toString());
+    //console.log('req.user', req.user._id);
+    //console.log('item._ownerId', item._ownerId._id.toString());
     if (req.user._id != item._ownerId._id.toString()) {
         return res.status(403).json({ message: 'You cannot modify this record' });
     }

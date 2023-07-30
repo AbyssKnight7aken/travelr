@@ -25,7 +25,6 @@ exports.login = async ({ email, password }) => {
         throw new Error('Invalid username or password!');
     }
 
-    console.log(password, user.password);
     const isValid = await bcrypt.compare(password, user.password);
 
     if (!isValid) {
@@ -43,7 +42,6 @@ exports.getUserInfo = async (email) => {
         throw new Error('Unexisting User!');
     }
 
-    console.log(user);
     return user;
 };
 
