@@ -4,7 +4,7 @@
             <form class="login">
                 <h1 class="button__text">User Info</h1>
 
-                <img class="login__field" [ngStyle]="{ 'background-image': 'url(' + 'data:image/png;base64,' + avatar + ')'}"/>
+                <img class="login__field" [ngStyle]="{ 'background-image': 'url(' + 'data:image/png;base64,' + profilePic + ')'}"/>
 
                 <!-- USERNAME -->
                 <div class="login__field">
@@ -23,7 +23,7 @@
                     <!-- <input [ngClass]="inputEmail.errors && inputEmail.touched ?  'input-error' : '' " type="email"
                         class="login__input" name="email" placeholder="Email" ngModel #inputEmail="ngModel" required
                         minlength="10"> -->
-                        <div class="login__input">{{user.email}}</div>
+                        <div class="login__input">{{user?.email}}</div>
                 </div>
 
 
@@ -71,8 +71,8 @@
 </div>
 
 <section id="hero">
-    <h2 *ngIf="userLogs?.length == 0">this user do not have any logs!</h2>
-    <ul class="rescent" *ngIf="userLogs">
+    <h2 *ngIf="!userLogs$">This user do not have any logs!</h2>
+    <ul *ngIf="userLogs$ | async as userLogs" class="rescent">
         <li *ngFor="let log of userLogs">
             <a routerLink="/logs/{{log._id}}" >
                 <app-card [log]="log" />

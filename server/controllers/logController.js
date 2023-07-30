@@ -17,13 +17,20 @@ logController.get('/rescent', async (req, res) => {
 
 logController.get('/', async (req, res) => {
     let items = [];
-    if (req.query.where) {
-        const userId = JSON.parse(req.query.where.split('=')[1]);
-        items = await logManager.getByUserId(userId);
-    } else {
-        items = await logManager.getAll();
+    try {
+        if (req.query.where) {
+            const userId = JSON.parse(req.query.where.split('=')[1]);
+            items = await logManager.getByUserId(userId);
+        } else {
+            items = await logManager.getAll();
+        }
+        res.json(items);
+    } catch (err) {
+        const message = parseError(err);
+        console.log(message);
+        res.status(400).json({ message });
     }
-    res.json(items);
+
 });
 
 //TODO: Turn on Guards and add userId...

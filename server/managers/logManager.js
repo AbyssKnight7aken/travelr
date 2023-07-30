@@ -11,7 +11,7 @@ exports.getRescent = () => {
 
 
 exports.getByUserId = async(userId) => {
-    return Log.find({ _ownerId: userId });
+    return Log.find({ _ownerId: userId }).populate('_ownerId');
 }
 
 exports.getById = async(id) => {
