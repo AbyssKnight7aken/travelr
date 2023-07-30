@@ -1,8 +1,8 @@
 <main>
     <section id="hero">
         <h1><strong>LOGS</strong> all over the world...</h1>
-        <h2 *ngIf="logs?.length == 0">There are no logs!</h2>
-        <ul class="rescent" *ngIf="logs">
+        <h2 *ngIf="!currentPageLogs$">There are no logs!</h2>
+        <ul class="rescent" *ngIf="currentPageLogs$ | async as logs">
             <li *ngFor="let log of logs">
                 <a routerLink="/logs/{{log._id}}" >
                     <app-card [log]="log" />

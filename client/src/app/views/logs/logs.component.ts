@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { BehaviorSubject, Observable, map, switchMap } from 'rxjs';
 import { ApiService } from 'src/app/services/api.service';
 import { Log } from 'src/app/types/log';
 
@@ -7,20 +8,23 @@ import { Log } from 'src/app/types/log';
   templateUrl: './logs.component.html',
   styleUrls: ['./logs.component.css']
 })
-export class LogsComponent implements OnInit {
+export class LogsComponent  {
   constructor(private apiService: ApiService) { }
-  logs: Log[] | null = [];
-  ngOnInit(): void {
-    this.apiService.getLogs().subscribe(
-      {
-        next: (logs) => {
-          console.log({ logs });
-          this.logs = logs;
-        },
-        error: (error) => {
-          console.log(error.error.message);
-        }
-      }
+  currentPage$ = new BehaviorSubject<number>(1);
+  //currentPageLogs$!: Observable<Log[]>;
+
+    currentPageLogs$ = this.currentPage$.pipe(
+      switchMap((currentPage) => this.apiService.getLogs(currentPage))
     );
+
+  nextPage() {
+    this.currentPage$.next(this.currentPage$.value + 1);
   }
+
+  previousPage() {
+    if (this.currentPage$.value > 1) {
+      this.currentPage$.next(this.currentPage$.value - 1);
+    }
+  }
+
 }

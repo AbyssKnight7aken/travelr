@@ -17,12 +17,16 @@ logController.get('/rescent', async (req, res) => {
 
 logController.get('/', async (req, res) => {
     let items = [];
+    const page = req.query.page || 0;
+    console.log(page);
+    const itemsPerPage = 3;
+
     try {
         if (req.query.where) {
             const userId = JSON.parse(req.query.where.split('=')[1]);
             items = await logManager.getByUserId(userId);
         } else {
-            items = await logManager.getAll();
+            items = await logManager.getAll(page, itemsPerPage);
         }
         res.json(items);
     } catch (err) {

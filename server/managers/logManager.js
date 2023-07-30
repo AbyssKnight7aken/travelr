@@ -1,8 +1,8 @@
 const Log = require('../models/Log');
 
 
-exports.getAll = async() => {
-    return await Log.find({}).populate('_ownerId');
+exports.getAll = async(page, itemsPerPage) => {
+    return await Log.find({}).skip(page * itemsPerPage).limit(itemsPerPage).populate('_ownerId');
 }
 
 exports.getRescent = () => {

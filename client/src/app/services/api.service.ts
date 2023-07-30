@@ -13,8 +13,8 @@ export class ApiService {
   appUrl = environment.appUrl;
   // headers = new HttpHeaders({ 'Content-Type': 'multipart/form-data', 'enctype': 'multipart/form-data'});
 
-  getLogs() {
-    return this.http.get<Log[]>(`${this.appUrl}/logs`);
+  getLogs(page: number) {
+    return this.http.get<Log[]>(`${this.appUrl}/logs?page=${page}`);
   }
 
   getRescentLogs() {
