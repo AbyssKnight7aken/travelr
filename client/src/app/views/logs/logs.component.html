@@ -1,6 +1,7 @@
 <main>
     <section id="hero">
         <h1><strong>LOGS</strong> all over the world...</h1>
+        <app-pagination class="pagination" [currentPage$]="currentPage$" />
         <h2 *ngIf="!currentPageLogs$">There are no logs!</h2>
         <ul class="rescent" *ngIf="currentPageLogs$ | async as logs">
             <li *ngFor="let log of logs">
