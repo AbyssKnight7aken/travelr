@@ -1,7 +1,7 @@
 const Log = require('../models/Log');
 
 
-exports.getAll = async(page, itemsPerPage) => {
+exports.getAll = async (page, itemsPerPage) => {
     return await Log.find({}).skip(page * itemsPerPage).limit(itemsPerPage).populate('_ownerId');
 }
 
@@ -10,20 +10,20 @@ exports.getRescent = () => {
 }
 
 
-exports.getByUserId = async(userId) => {
+exports.getByUserId = async (userId) => {
     return Log.find({ _ownerId: userId }).populate('_ownerId');
 }
 
-exports.getById = async(id) => {
+exports.getById = async (id) => {
     const log = Log.findById(id).populate('_ownerId');
     return log;
 }
 
-exports.create = async(item) => {
+exports.create = async (item) => {
     return Log.create(item);
 }
 
-exports.update = async(id, item) => {
+exports.update = async (id, item) => {
     const existing = await Log.findById(id);
 
     existing.name = item.name;
@@ -35,6 +35,10 @@ exports.update = async(id, item) => {
     return existing.save();
 }
 
-exports.deleteById = async(id) => {
+exports.deleteById = async (id) => {
     return Log.findByIdAndDelete(id);
 }
+
+exports.getCount = async () => {
+    return Log.countDocuments({});
+};

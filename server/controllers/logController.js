@@ -10,6 +10,19 @@ const { isAuth, auth } = require('../middlewares/authMiddleware')
 const { parseError } = require('../util/parser');
 
 
+logController.get('/count', async (req, res) => {
+    try {
+        const count = await logManager.getCount();
+        console.log(count);
+        res.json(count);
+    } catch (err) {
+        const message = parseError(err);
+        console.log(message);
+        res.status(400).json({ message });
+    }
+});
+
+
 logController.get('/rescent', async (req, res) => {
     const logs = await logManager.getRescent();
     res.json(logs);
@@ -125,5 +138,6 @@ logController.delete('/:id', isAuth, async (req, res) => {
         res.status(400).json({ message });
     }
 });
+
 
 module.exports = logController;
