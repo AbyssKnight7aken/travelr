@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
+import { ApiService } from 'src/app/services/api.service';
 
 @Component({
   selector: 'app-pagination',
@@ -7,6 +8,10 @@ import { BehaviorSubject } from 'rxjs';
   styleUrls: ['./pagination.component.scss']
 })
 export class PaginationComponent {
+  constructor(private apiService: ApiService) {}
+
+  pages = this.apiService.getCount();
+
   @Input() currentPage$!: any;
   
   nextPage() {

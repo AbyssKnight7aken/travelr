@@ -8,13 +8,20 @@ const logController = require('express').Router();
 const logManager = require('../managers/logManager')
 const { isAuth, auth } = require('../middlewares/authMiddleware')
 const { parseError } = require('../util/parser');
+const itemsPerPage = 6;
 
 
 logController.get('/count', async (req, res) => {
     try {
         const count = await logManager.getCount();
-        console.log(count);
-        res.json(count);
+        let pageCount = 0;
+        if (count % itemsPerPage === 0) {
+            pageCount = count / itemsPerPage;
+        } else {
+            pageCount = Math.floor(count / itemsPerPage) + 1;
+        }
+        console.log('pages' ,pageCount);
+        res.json(pageCount);
     } catch (err) {
         const message = parseError(err);
         console.log(message);
@@ -31,9 +38,7 @@ logController.get('/rescent', async (req, res) => {
 logController.get('/', async (req, res) => {
     let items = [];
     const page = req.query.page - 1 || 0;
-    console.log(page);
-    const itemsPerPage = 3;
-
+    
     try {
         if (req.query.where) {
             const userId = JSON.parse(req.query.where.split('=')[1]);
