@@ -29,7 +29,7 @@ button {
 
 .paginate {
   position: relative;
-  margin: 10px;
+  margin: 5rem;
   width: $size;
   height: $size;
   cursor: pointer;
@@ -38,7 +38,7 @@ button {
   position: absolute;
   top: 50%;
   margin-top: -20px;
-  -webkit-filter: drop-shadow( 0 2px 0px rgba(0,0,0,0.2) );
+  -webkit-filter: drop-shadow( 0 2px 0px rgba(87, 86, 86, 0.2) );
 
   i {
     position: absolute;
@@ -114,7 +114,8 @@ button {
 
 .counter {
   text-align: center;
-  position: absolute;
+  // position: absolute;
+  align-items: center;
   width: 100%;
   top: 50%;
   margin-top: -15px;

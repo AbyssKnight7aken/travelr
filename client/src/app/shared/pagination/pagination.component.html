@@ -1,4 +1,4 @@
-<div class="counter">{{currentPage$ | async}}</div>
+<div class="counter">{{(currentPage$ | async)}} / 5</div>
 
-<button (click)="previousPage()" class="paginate left"><i></i><i></i></button>
+<button [attr.data-state]="(currentPage$ | async) === 1 ? 'disabled' : ''" (click)="previousPage()" class="paginate left"><i></i><i></i></button>
 <button (click)="nextPage()" class="paginate right"><i></i><i></i></button>

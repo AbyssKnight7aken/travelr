@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { BehaviorSubject, Observable, map, switchMap } from 'rxjs';
 import { ApiService } from 'src/app/services/api.service';
 import { Log } from 'src/app/types/log';
@@ -10,6 +10,7 @@ import { Log } from 'src/app/types/log';
 })
 export class LogsComponent  {
   constructor(private apiService: ApiService) { }
+
   currentPage$ = new BehaviorSubject<number>(1);
   //currentPageLogs$!: Observable<Log[]>;
 
