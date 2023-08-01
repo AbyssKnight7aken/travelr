@@ -5,6 +5,11 @@ exports.getAll = async (page, itemsPerPage) => {
     return await Log.find({}).skip(page * itemsPerPage).limit(itemsPerPage).populate('_ownerId');
 }
 
+exports.getSearchResult = async (searchInput, page, itemsPerPage) => {
+    const regex = new RegExp(searchInput, 'i');
+    return  await Log.find({name: {$regex: regex}}).skip(page * itemsPerPage).limit(itemsPerPage).populate('_ownerId');
+}
+
 exports.getRescent = () => {
     return Log.find({}).sort({ _id: -1 }).limit(3).populate('_ownerId');
 }

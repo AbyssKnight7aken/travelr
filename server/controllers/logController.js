@@ -20,7 +20,6 @@ logController.get('/count', async (req, res) => {
         } else {
             pageCount = Math.floor(count / itemsPerPage) + 1;
         }
-        console.log('pages' ,pageCount);
         res.json(pageCount);
     } catch (err) {
         const message = parseError(err);
@@ -35,10 +34,26 @@ logController.get('/rescent', async (req, res) => {
     res.json(logs);
 });
 
+
+logController.post('/search', async (req, res) => {
+    try {
+        const page = req.body.page - 1 || 0;
+        const searchParam = req.body.searchParam;
+        const logs = await logManager.getSearchResult(searchParam, page, itemsPerPage);
+        res.json(logs);
+
+    } catch (err) {
+        const message = parseError(err);
+        console.log(message);
+        res.status(400).json({ message });
+    }
+});
+
+
 logController.get('/', async (req, res) => {
     let items = [];
     const page = req.query.page - 1 || 0;
-    
+
     try {
         if (req.query.where) {
             const userId = JSON.parse(req.query.where.split('=')[1]);

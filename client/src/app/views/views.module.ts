@@ -10,6 +10,7 @@ import { DetailsComponent } from './details/details.component';
 import { EditComponent } from './edit/edit.component';
 import { LoginComponent } from '../auth/login/login.component';
 import { LogsRoutingModule } from './logs-routing.module';
+import { SearchComponent } from './search/search.component';
 
 
 
@@ -19,7 +20,8 @@ import { LogsRoutingModule } from './logs-routing.module';
     LogsComponent,
     CreateComponent,
     DetailsComponent,
-    EditComponent
+    EditComponent,
+    SearchComponent
   ],
   imports: [
     CommonModule,

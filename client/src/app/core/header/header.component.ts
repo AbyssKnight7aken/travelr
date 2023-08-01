@@ -13,6 +13,7 @@ import { User } from 'src/app/types/user';
 export class HeaderComponent {
   constructor(private authService: AuthService, private router: Router, private sessionService: SessionService) { }
 
+  searchInput: string = '';
   get isLoggedIn(): boolean {
     return this.sessionService.hasUser;
   }
@@ -29,6 +30,11 @@ export class HeaderComponent {
   onBtnClick():void {
     //console.log(this.isOpen);
     this.isOpen = !this.isOpen;
+  }
+
+  searchHandler():void {
+    console.log(this.searchInput);
+    this.router.navigate(['/search'], {queryParams:{searchInput: this.searchInput}});
   }
 
   logoutHandler(): void {

@@ -49,6 +49,7 @@ homeController.post('/search', async (req, res) => {
 
     } catch (error) {
         res.redirect('/search');
+        
     }
 });
 
