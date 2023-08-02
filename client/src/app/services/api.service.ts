@@ -46,8 +46,8 @@ export class ApiService {
     return this.http.delete<any>(`${this.appUrl}/logs/${id}`);
   }
 
-  getSearchResult(searchParam: string, page: number) {
-    return this.http.post<Log[]>(`${this.appUrl}/logs/search`, {searchParam, page});
+  getSearchResult(searchParam: string) {
+    return this.http.post<Log[]>(`${this.appUrl}/logs/search`, {searchParam});
   }
 
   // getPosts(limit?: number) {

@@ -10,9 +10,10 @@ import { ApiService } from 'src/app/services/api.service';
 export class PaginationComponent {
   constructor(private apiService: ApiService) {}
 
-  pages = this.apiService.getCount();
+  //pages = this.apiService.getCount();
 
   @Input() currentPage$!: any;
+  @Input() pages!: number;
   
   nextPage() {
     this.currentPage$.next(this.currentPage$.value + 1);

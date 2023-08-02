@@ -1,12 +1,12 @@
 <main>
     <section id="hero">
-        <h1><strong>Search</strong> results...</h1>
-        <h2 *ngIf="!currentPageLogs$">There are no logs!</h2>
+        <h1 *ngIf="searchService.searchResult.length > 0"><strong>Search</strong> results...</h1>
+        <h1 *ngIf="searchService.searchResult.length === 0">There are no results, based on your search!</h1>
         <div class="pagination">
-            <app-pagination [currentPage$]="currentPage$" />
+            <app-pagination [currentPage$]="currentPage$" [pages]="this.searchService.pages" />
         </div>
-        <ul class="rescent" *ngIf="currentPageLogs$ | async as logs">
-            <li *ngFor="let log of logs">
+        <ul class="rescent" *ngIf="currentPageLogs$">
+            <li *ngFor="let log of searchService.searchResult">
                 <a routerLink="/logs/{{log._id}}" >
                     <app-card [log]="log" />
                 </a>

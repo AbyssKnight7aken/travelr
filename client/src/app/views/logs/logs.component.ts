@@ -8,9 +8,25 @@ import { Log } from 'src/app/types/log';
   templateUrl: './logs.component.html',
   styleUrls: ['./logs.component.css']
 })
-export class LogsComponent  {
+export class LogsComponent implements OnInit  {
   constructor(private apiService: ApiService) { }
+  pages!: number;
+  ngOnInit(): void {
+    this.apiService.getCount().subscribe(
+    {
+      next: (result) => {
+        
+        this.pages = result;
+        console.log(result);
+      },
+      error: (error) => {
+        console.log(error.error.message);
+      }
+    }
+  );
+  }
 
+  
   currentPage$ = new BehaviorSubject<number>(1);
   //currentPageLogs$!: Observable<Log[]>;
 

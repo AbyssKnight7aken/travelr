@@ -3,7 +3,7 @@
         <h1><strong>LOGS</strong> all over the world...</h1>
         <h2 *ngIf="!currentPageLogs$">There are no logs!</h2>
         <div class="pagination">
-            <app-pagination [currentPage$]="currentPage$" />
+            <app-pagination [currentPage$]="currentPage$" [pages]="pages" />
         </div>
         <ul class="rescent" *ngIf="currentPageLogs$ | async as logs">
             <li *ngFor="let log of logs">
