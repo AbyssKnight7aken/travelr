@@ -35,6 +35,25 @@ logController.get('/rescent', async (req, res) => {
 });
 
 
+logController.get('/search', async (req, res) => {
+    try {
+        const searchParam = req.query.searchParam;
+        const count = await logManager.getSearchCount(searchParam);
+        let pageCount = 0;
+        if (count % itemsPerPage === 0) {
+            pageCount = count / itemsPerPage;
+        } else {
+            pageCount = Math.floor(count / itemsPerPage) + 1;
+        }
+        res.json(pageCount);
+    } catch (err) {
+        const message = parseError(err);
+        console.log(message);
+        res.status(400).json({ message });
+    }
+});
+
+
 logController.post('/search', async (req, res) => {
     try {
         const page = req.body.page - 1 || 0;

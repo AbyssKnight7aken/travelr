@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs/internal/Observable';
 import { ApiService } from 'src/app/services/api.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { SearchService } from 'src/app/services/search.service';
@@ -22,7 +21,6 @@ export class HeaderComponent {
 
   get user(): User {
     const user = this.sessionService.getUserData();
-    //console.log(user);
     return user;
 
   }
@@ -30,20 +28,28 @@ export class HeaderComponent {
   isOpen: boolean = false;
 
   onBtnClick(): void {
-    //console.log(this.isOpen);
     this.isOpen = !this.isOpen;
   }
 
   searchHandler(): void {
     console.log(this.searchInput);
-    this.apiService.getSearchResult(this.searchInput).subscribe(
+    this.apiService.getSearchResult(this.searchInput, 1).subscribe(
       {
         next: (logs) => {
-          this.searchService.searchResult = logs;
-          this.searchService.pages = logs.length;
+          this.searchService.searchParam = this.searchInput;
+          this.searchService.searchResult = logs;          
+          this.apiService.getSearchCount(this.searchInput).subscribe(
+            {
+              next: (result) => {
+                
+                this.searchService.pages = result;
+                console.log('pages - ',this.searchService.pages);
+              },
+              error: (error) => {
+                console.log(error.error.message);
+              }
+            })
           console.log(logs);
-          console.log(logs.length);
-          //this.router.navigate(['/search'], { state: { searchInput: this.searchInput, searchResult: searchResult, pages: pages } });
           this.router.navigate(['/search']);
         },
         error: (error) => {
@@ -56,7 +62,6 @@ export class HeaderComponent {
   logoutHandler(): void {
     this.authService.logout().subscribe({
       next: (data) => {
-        //console.log(data);
         this.sessionService.clearSession();
         this.router.navigate(['/']);
       },

@@ -47,3 +47,8 @@ exports.deleteById = async (id) => {
 exports.getCount = async () => {
     return Log.countDocuments({});
 };
+
+exports.getSearchCount = async (searchParam) => {
+    const regex = new RegExp(searchParam, 'i');
+    return Log.countDocuments({name: {$regex: regex}});
+};
