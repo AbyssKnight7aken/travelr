@@ -37,7 +37,8 @@ export class HeaderComponent {
       {
         next: (logs) => {
           this.searchService.searchParam = this.searchInput;
-          this.searchService.searchResult = logs;          
+          this.searchService.searchResult = logs;  
+          this.searchService.currentPage$.next(1);        
           this.apiService.getSearchCount(this.searchInput).subscribe(
             {
               next: (result) => {

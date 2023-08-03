@@ -14,15 +14,15 @@ import { ApiService } from 'src/app/services/api.service';
 export class SearchComponent implements OnInit {
   constructor(public searchService: SearchService, private apiService: ApiService) { }
 
-  pages = this.searchService.pages;
+  //page = this.searchService.page;
 
-  currentPage$ = new BehaviorSubject<number>(1);
+  //currentPage$ = new BehaviorSubject<number>(1);
 
   ngOnInit() {
-    this.currentPage$.subscribe((currentPage) => {
+    this.searchService.currentPage$.subscribe((currentPage) => {
       //console.log(currentPage);
-      this.searchService.page = currentPage;
-      console.log(this.searchService.page);
+      //this.searchService.page = currentPage;
+      console.log(this.searchService.currentPage$);
        this.searchService.getSearch().subscribe({
         next: (logs: Log[]) => {
           this.searchService.searchResult = logs;
@@ -37,12 +37,12 @@ export class SearchComponent implements OnInit {
   }
 
   nextPage() {
-    this.currentPage$.next(this.currentPage$.value + 1);
+    this.searchService.currentPage$.next(this.searchService.currentPage$.value + 1);
   }
 
   previousPage() {
-    if (this.currentPage$.value > 1) {
-      this.currentPage$.next(this.currentPage$.value - 1);
+    if (this.searchService.currentPage$.value > 1) {
+      this.searchService.currentPage$.next(this.searchService.currentPage$.value - 1);
     }
   }
 
