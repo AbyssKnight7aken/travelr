@@ -16,15 +16,9 @@ export class DetailsComponent implements OnInit {
   get isLoggedIn(): boolean {
     return this.sessionService.hasUser;
   }
-
-  get user():User {
-    const user = this.sessionService.getUserData();
-    console.log(user._id);
-    return user;
-
-  }
   
   log!: Log | null; 
+  user!:User | null;
   avatar: string | undefined;
   image: string | undefined;
   isOwner:Boolean = false;
@@ -36,6 +30,7 @@ export class DetailsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.user = this.sessionService.getUserData();
     this.logId = this.activatedRoute.snapshot.params['logId'];
     this.apiService.getDetails(this.logId).subscribe(
       {
@@ -43,8 +38,7 @@ export class DetailsComponent implements OnInit {
           this.log = result;
           this.avatar = this.getImageAsBase64(this.log?._ownerId.img.data.data);
           this.image = this.getImageAsBase64(this.log?.img.data.data);
-          this.user;
-          this.isOwner = this.user._id === this.log?._ownerId._id;
+          this.isOwner = this.user?._id === this.log?._ownerId._id;
           console.log(this.isOwner);
           console.log(this.log);
         },

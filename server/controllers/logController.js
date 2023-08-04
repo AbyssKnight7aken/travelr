@@ -76,7 +76,7 @@ logController.get('/', async (req, res) => {
     try {
         if (req.query.where) {
             const userId = JSON.parse(req.query.where.split('=')[1]);
-            items = await logManager.getByUserId(userId);
+            items = await logManager.getByUserId(userId, page, itemsPerPage);
         } else {
             items = await logManager.getAll(page, itemsPerPage);
         }

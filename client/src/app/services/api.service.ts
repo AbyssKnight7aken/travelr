@@ -29,8 +29,8 @@ export class ApiService {
     return this.http.get<any>(`${this.appUrl}/logs/${id}`);
   }
 
-  getUserLogs(userId: string): Observable<Log[]> {
-    return this.http.get<Log[]>(`${this.appUrl}/logs?where=_ownerId%3D%22${userId}%22`);
+  getUserLogs(userId: string, page: number): Observable<any> {
+    return this.http.get<any>(`${this.appUrl}/logs?where=_ownerId%3D%22${userId}%22&page=${page}`);
   }
 
   create(body: Log) {

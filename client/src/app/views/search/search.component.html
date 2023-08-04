@@ -3,7 +3,7 @@
         <h1 *ngIf="searchService.searchResult.length > 0"><strong>Search</strong> results...</h1>
         <h1 *ngIf="searchService.searchResult.length === 0">There are no results, based on your search!</h1>
         <div class="pagination">
-            <app-pagination [currentPage$]="searchService.currentPage$" [pages]="searchService.pages" />
+            <app-pagination *ngIf="searchService.searchResult.length > 0" [currentPage$]="searchService.currentPage$" [pages]="searchService.pages" />
         </div>
         <ul class="rescent" *ngIf="searchService.searchResult.length > 0">
             <li *ngFor="let log of searchService.searchResult as logs">

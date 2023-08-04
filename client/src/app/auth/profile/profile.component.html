@@ -72,7 +72,11 @@
 
 <section id="hero">
     <h2 *ngIf="!userLogs$">This user do not have any logs!</h2>
-    <ul *ngIf="userLogs$ | async as userLogs" class="rescent">
+    <div class="pagination">
+        <app-pagination [currentPage$]="currentPage$" [pages]="pages" />
+        <!-- <app-pagination /> -->
+    </div>
+    <ul *ngIf="userLogs$ as userLogs" class="rescent">
         <li *ngFor="let log of userLogs">
             <a routerLink="/logs/{{log._id}}" >
                 <app-card [log]="log" />

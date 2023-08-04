@@ -15,8 +15,16 @@ exports.getRescent = () => {
 }
 
 
-exports.getByUserId = async (userId) => {
-    return Log.find({ _ownerId: userId }).populate('_ownerId');
+exports.getByUserId = async (userId, page, itemsPerPage) => {
+    const userLogs = await Log.find({ _ownerId: userId }).skip(page * itemsPerPage).limit(itemsPerPage).populate('_ownerId');
+    const count = await Log.countDocuments({_ownerId: userId});
+    let pageCount = 0;
+        if (count % itemsPerPage === 0) {
+            pageCount = count / itemsPerPage;
+        } else {
+            pageCount = Math.floor(count / itemsPerPage) + 1;
+        }
+        return { userLogs, pageCount };
 }
 
 exports.getById = async (id) => {
