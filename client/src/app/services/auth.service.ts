@@ -28,4 +28,8 @@ export class AuthService {
   getUserInfo(): Observable<User> {
     return this.httpClient.get<User>(`${environment.appUrl}/users/profile`);
   }
+  
+  updateUserData(userData: createUserData): Observable<User> {
+    return this.httpClient.put<User>(`${environment.appUrl}/users/update`, userData);
+  }
 }
