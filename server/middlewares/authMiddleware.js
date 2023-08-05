@@ -4,6 +4,7 @@ const {parseToken} = require('../managers/userManager');
 
 exports.auth = async (req, res, next) => {
     const token = req.headers['x-authorization'];
+    //console.log(token);
     if (token) {
         try {
             const decodedToken = await parseToken(token);

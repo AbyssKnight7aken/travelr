@@ -13,18 +13,20 @@ exports.register = async (username, email, password, img) => {
         throw new Error('Email is taken!');
     }
 
-    const user = await User.create({ username, email, password, img });
+    const user = await User.create({ username, email, password, password: await bcrypt.hash(this.password, 10) });
     const result = createToken(user);
     return result;
 };
 
 exports.login = async ({ email, password }) => {
     const user = await User.findOne({ email }).select('+password').collation({ locale: 'en', strength: 2 });
+    console.log(user);
 
     if (!user) {
         throw new Error('Invalid username or password!');
     }
 
+    console.log(password, user.password);
     const isValid = await bcrypt.compare(password, user.password);
 
     if (!isValid) {
@@ -34,6 +36,20 @@ exports.login = async ({ email, password }) => {
     const result = createToken(user);
     return result;
 };
+
+exports.update = async (email, userData) => {
+    const existing = await User.findOne({ email }).select('+password').collation({ locale: 'en', strength: 2 });
+    console.log(existing);
+    
+    existing.username = userData.username;
+    existing.email = userData.email;
+    existing.img = userData.img;
+    existing.password = existing.password;
+
+    existing.save();
+    const result = createToken(existing);
+    return result;
+}
 
 exports.getUserInfo = async (email) => {
     const user = await User.findOne({ email }).collation({ locale: 'en', strength: 2 });

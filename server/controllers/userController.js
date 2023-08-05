@@ -49,6 +49,37 @@ userController.post('/login', async (req, res) => {
 });
 
 
+userController.put('/update', async (req, res, next) => {
+    //console.log(req.user.email);
+    const user = await userManager.getUserInfo(req.user.email);
+    //console.log(user);
+    if (!user) {
+        return res.status(403).json({ message: 'Unauthorized!' });
+    }
+
+    try {
+        const userData = {
+            "username": req.body.username,
+            "email": req.body.email,
+            "img": {
+                "data": fs.readFileSync("uploads/" + req.file.filename),
+                "contentType": "image/png",
+            },
+            "_ownerId": req.user._id
+        };
+
+        const updatedUser = await userManager.update(req.user.email, userData);
+        console.log('updated!');
+        res.json(updatedUser);
+
+    } catch (err) {
+        const message = parseError(err);
+        console.log(message);
+        res.status(400).json({ message });
+    }
+});
+
+
 userController.get('/logout', async (req, res) => {
     try {
         const token = req.token;
