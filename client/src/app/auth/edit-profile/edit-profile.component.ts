@@ -3,6 +3,7 @@ import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 import { ImageService } from 'src/app/services/image.service';
+import { SessionService } from 'src/app/services/session.service';
 import { createUserData } from 'src/app/types/createUserData';
 import { User } from 'src/app/types/user';
 
@@ -12,11 +13,11 @@ import { User } from 'src/app/types/user';
   styleUrls: ['./edit-profile.component.css']
 })
 export class EditProfileComponent {
-  constructor(private router: Router, private authService: AuthService, private imageService: ImageService) { }
-  
+  constructor(private router: Router, private authService: AuthService, private sessionServise: SessionService, private imageService: ImageService) { }
+
   errorMesssageFromServer!: string;
-  validateEmail:boolean = true;
-  
+  validateEmail: boolean = true;
+
   user: User | undefined;
   userId!: string;
   profilePic: any;
@@ -99,14 +100,14 @@ export class EditProfileComponent {
     formData.append('password', editUserForm.value.password);
 
     console.log(formData.get('img'));
-    
-    
+
+
     // this.router.navigate(['/user/profile']);
 
     this.authService.updateUserData(formData as unknown as createUserData).subscribe({
       next: (updatedUser) => {
         console.log(updatedUser);
-        // this.sessionServise.createSession(updatedUser);
+        this.sessionServise.createSession(updatedUser);
         this.router.navigate(['/user/profile']);
       },
       error: (error) => {
