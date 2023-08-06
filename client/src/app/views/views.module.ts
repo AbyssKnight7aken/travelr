@@ -11,6 +11,7 @@ import { EditComponent } from './edit/edit.component';
 import { LoginComponent } from '../auth/login/login.component';
 import { LogsRoutingModule } from './logs-routing.module';
 import { SearchComponent } from './search/search.component';
+import { MissingComponent } from './missing/missing.component';
 
 
 
@@ -21,7 +22,8 @@ import { SearchComponent } from './search/search.component';
     CreateComponent,
     DetailsComponent,
     EditComponent,
-    SearchComponent
+    SearchComponent,
+    MissingComponent
   ],
   imports: [
     CommonModule,
