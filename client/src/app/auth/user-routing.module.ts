@@ -4,26 +4,29 @@ import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { ProfileComponent } from './profile/profile.component';
 import { EditProfileComponent } from './edit-profile/edit-profile.component';
-//import { AuthActivate } from '../../core/guards/auth.acivate';
+import { AuthGuard } from '../guards/auth-activate.guard';
+import { GuestGuard } from '../guards/guest-activate.guard';
 
 const routes: Routes = [
     {
         path: 'login',
-        component: LoginComponent,      
+        component: LoginComponent,
+        canActivate: [GuestGuard]     
     },
     {
         path: 'register',
         component: RegisterComponent,
+        canActivate: [GuestGuard] 
     },
     {
         path: 'profile',
         component: ProfileComponent,
-        //canActivate: [AuthActivate]
+        canActivate: [AuthGuard]
     },
     {
         path: 'profile/edit',
         component: EditProfileComponent,
-        //canActivate: [AuthActivate]
+        canActivate: [AuthGuard]
     }
 ];
 
