@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { LoaderComponent } from './loader/loader.component';
 import { CardComponent } from './card/card.component';
 import { PaginationComponent } from './pagination/pagination.component';
+import { ModalComponent } from './modal/modal.component';
 
 
 
@@ -11,6 +12,7 @@ import { PaginationComponent } from './pagination/pagination.component';
     LoaderComponent,
     CardComponent,
     PaginationComponent,
+    ModalComponent,
   ],
   imports: [
     CommonModule
@@ -19,6 +21,7 @@ import { PaginationComponent } from './pagination/pagination.component';
     LoaderComponent,
     CardComponent,
     PaginationComponent,
+    ModalComponent
   ]
 })
 export class SharedModule { }
