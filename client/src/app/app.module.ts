@@ -7,8 +7,6 @@ import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { SharedModule } from './shared/shared.module';
-import { AuthModule } from './auth/auth.module';
-import { LoginComponent } from './auth/login/login.component';
 import { ViewsModule } from './views/views.module';
 import { AddHeaderInterceptor } from './interceptors/auth.interceptor';
 import { DatePipe } from '@angular/common';
