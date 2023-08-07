@@ -23,6 +23,8 @@ export class DetailsComponent implements OnInit {
   image: string | undefined;
   isOwner:Boolean = false;
   logId!: string;
+  isShown: boolean = false;
+  name!: string;
 
   like(): void {
     console.log('like');
@@ -36,6 +38,7 @@ export class DetailsComponent implements OnInit {
       {
         next: (result) => {
           this.log = result;
+          this.name = result.name;
           this.avatar = this.getImageAsBase64(this.log?._ownerId.img.data.data);
           this.image = this.getImageAsBase64(this.log?.img.data.data);
           this.isOwner = this.user?._id === this.log?._ownerId._id;
@@ -60,7 +63,17 @@ export class DetailsComponent implements OnInit {
     return btoa(binary);
   }
 
-  deleteLog(id: any) {
+  onCloseModal(isShown: boolean) {
+    this.isShown = isShown; // Update the isShown variable in the parent component
+  }
+
+  showDeleteModal() {
+    this.isShown = !this.isShown;
+  }
+
+  onDeleteConfirmed() {
+    console.log('Delete operation confirmed');
+
     this.apiService.deleteByLogId(this.logId).subscribe({
       error: (error) => {
         console.log(error.error.message);

@@ -1,17 +1,19 @@
 <main>
+    <app-modal *ngIf="isShown" [isShown]="isShown" [name]="name" (closeModal)="onCloseModal($event)"
+        (confirmDelete)="onDeleteConfirmed()"></app-modal>
     <section id="hero">
         <div class="rescent">
             <div class="container" [ngStyle]="{ 'background-image': 'url(' + 'data:image/png;base64,' + image + ')'}">
                 <div class="container__info">
                     <div class="actions">
                         <span *ngIf="!isOwner" (click)="like()"><i class="fas fa-heart"></i>2350</span>
-                        <span *ngIf="isOwner" ><i class="fas fa-heart"></i>2350</span>
+                        <span *ngIf="isOwner"><i class="fas fa-heart"></i>2350</span>
                         <span><i class="fas fa-comment-alt"></i>624</span>
                         <span><i class="fas fa-download"></i>1470</span>
                     </div>
                     <div *ngIf="isOwner" class="owner">
                         <a routerLink="/logs/{{log?._id}}/edit"><i class="fas fa-pen-to-square"></i></a>
-                        <a href="javascript:void(0)" (click)="deleteLog(log?._id)"><i class="fas fa-trash"></i></a>
+                        <a href="javascript:void(0)" (click)="showDeleteModal()"><i class="fas fa-trash"></i></a>
                     </div>
                 </div>
                 <div class="container__profile">
@@ -30,7 +32,7 @@
         <!-- <div class="addComments">
             <form>
                 <textarea id="comment-textarea" name="comment" cols="40" rows="10"
-                    placeholder="Add comment..."></textarea>
+                placeholder="Add comment..."></textarea>
                 <button type="submit">Post</button>
             </form>
         </div> -->
