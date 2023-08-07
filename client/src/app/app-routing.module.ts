@@ -1,9 +1,8 @@
-import { NgModule, createComponent } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './views/home/home.component';
-import { LogsComponent } from './views/logs/logs.component';
-import { CreateComponent } from './views/create/create.component';
 import { MissingComponent } from './views/missing/missing.component';
+import { SearchComponent } from './views/search/search.component';
 
 export const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'home', },
@@ -15,6 +14,10 @@ export const routes: Routes = [
   {
     path: 'logs',
     loadChildren: () => import('./views/views.module').then(m => m.ViewsModule)
+},
+{
+  path: 'search',
+  component: SearchComponent,
 },
 {path: '**',component: MissingComponent}
 ];
