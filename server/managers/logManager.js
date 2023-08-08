@@ -60,3 +60,11 @@ exports.getSearchCount = async (searchParam) => {
     const regex = new RegExp(searchParam, 'i');
     return Log.countDocuments({name: {$regex: regex}});
 };
+
+exports.addComment = async (id, commentData) => {
+    const log = await Log.findById(id);
+
+    log.commentList.push(commentData);
+    await log.save();
+    return log;
+}

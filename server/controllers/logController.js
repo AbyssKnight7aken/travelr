@@ -96,7 +96,8 @@ logController.post('/', async (req, res) => {
 
         const data = {
             "name": req.body.name,
-            "date": moment(req.body.date).format('MMMM Do YYYY, h:mm:ss a'),
+            //"date": moment(req.body.date).format('MMMM Do YYYY, h:mm:ss a'),
+            "date": req.body.date,
             "description": req.body.description,
             "img": {
                 "data": fs.readFileSync("uploads/" + req.file.filename),
@@ -141,7 +142,8 @@ logController.put('/:id', isAuth, async (req, res, next) => {
 
         const data = {
             "name": req.body.name,
-            "date": moment(req.body.date).format('MMMM Do YYYY, h:mm:ss a'),
+            //"date": moment(req.body.date).format('MMMM Do YYYY, h:mm:ss a'),
+            "date": req.body.date,
             "description": req.body.description,
             "img": {
                 "data": fs.readFileSync("uploads/" + req.file.filename),
@@ -178,5 +180,22 @@ logController.delete('/:id', isAuth, async (req, res) => {
     }
 });
 
+
+//COMMENT==================================================================
+logController.post('/:id/comments', isAuth, async (req, res) => {
+    const logId = req.params.id;
+    const { comment } = req.body;
+    const user = req.user._id;
+    //console.log(req.body);
+    try {
+        const result = await photoManager.addComment(logId, { comment, user });
+
+        res.json(result);
+    } catch (err) {
+        const message = parseError(err);
+        console.log(message);
+        res.status(400).json({ message });
+    }
+})
 
 module.exports = logController;

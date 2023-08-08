@@ -8,7 +8,7 @@ const LogSchema = new mongoose.Schema({
         maxLength: [20, 'The name should not be more than 20 characters long!'],
     },
     date: {
-        type: String,
+        type: Date,
         required: [true, 'Date is required!'],
     },
     description: {
@@ -33,7 +33,18 @@ const LogSchema = new mongoose.Schema({
     _ownerId: {
         type: mongoose.Types.ObjectId,
         ref: 'User',
-    }
+    },
+    commentList: [{
+        user: {
+            type: mongoose.Types.ObjectId,
+            required: [true, 'Name is required'],
+            ref: 'User'
+        },
+        comment: {
+            type: String,
+            required: [true, 'Comment message is required']
+        }
+    }]
 });
 
 const Log = mongoose.model('Log', LogSchema);

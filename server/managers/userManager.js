@@ -13,7 +13,7 @@ exports.register = async (username, email, password, img) => {
         throw new Error('Email is taken!');
     }
 
-    const user = await User.create({ username, email, password, password: await bcrypt.hash(this.password, 10) });
+    const user = await User.create({ username, email, password, password: await bcrypt.hash(password, 10) });
     const result = createToken(user);
     return result;
 };
@@ -40,7 +40,7 @@ exports.login = async ({ email, password }) => {
 exports.update = async (email, userData) => {
     const existing = await User.findOne({ email }).select('+password').collation({ locale: 'en', strength: 2 });
     console.log(existing);
-    
+
     existing.username = userData.username;
     existing.email = userData.email;
     existing.img = userData.img;
