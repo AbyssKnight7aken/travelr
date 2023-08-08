@@ -18,26 +18,9 @@ export class ProfileComponent implements OnInit {
   pages!: number;
   userLogs$!: any;
   profilePic: any;
+  isLoading: boolean = true
+  showPagination: boolean = false
   currentPage$ = new BehaviorSubject<number>(1);
-
-
-  // ngOnInit() {
-  //   this.searchService.currentPage$.subscribe((currentPage) => {
-  //     //console.log(currentPage);
-  //     //this.searchService.page = currentPage;
-  //     console.log(this.searchService.currentPage$);
-  //      this.searchService.getSearch().subscribe({
-  //       next: (logs: Log[]) => {
-  //         this.searchService.searchResult = logs;
-  //         //this.searchService.pages = logs.length;
-  //         console.log(logs);
-  //       },
-  //       error: (error: { error: { message: any; }; }) => {
-  //         console.log(error.error.message);
-  //       }
-  //     });
-  //   });
-  // }
 
   ngOnInit(): void {
     this.authService.getUserInfo().subscribe({
@@ -51,6 +34,10 @@ export class ProfileComponent implements OnInit {
             next: (result) => {
               this.userLogs$ = result.userLogs;
               this.pages = result.pageCount;
+              this.isLoading = false;
+              result.userLogs.length > 0
+              ? this.showPagination = true
+              : this.showPagination = false;
             },
             error: (error) => {
               console.log(error.error.message);
