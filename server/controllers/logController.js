@@ -186,10 +186,11 @@ logController.post('/:id/comments', isAuth, async (req, res) => {
     const logId = req.params.id;
     const { comment } = req.body;
     const user = req.user._id;
-    //console.log(req.body);
+    console.log(comment);
+    console.log(user);
     try {
-        const result = await photoManager.addComment(logId, { comment, user });
-
+        const result = await logManager.addComment(logId, { comment, user });
+        console.log(result);
         res.json(result);
     } catch (err) {
         const message = parseError(err);

@@ -18,7 +18,8 @@ export class DetailsComponent implements OnInit {
     return this.sessionService.hasUser;
   }
 
-  log!: Log | null;
+  log: any;
+  //log!: Log | null;
   user!: User | null;
   avatar: string | undefined;
   image: string | undefined;
@@ -94,6 +95,22 @@ export class DetailsComponent implements OnInit {
       return;
     }
 
+    console.log(commentForm.value.comment);
+
+    const formData = new FormData();
+    formData.append('comment', commentForm.value.comment);
+    
+    this.apiService.addComment(this.logId, formData).subscribe({
+      next: (result) => {
+        //this.sessionService.createSession(user);
+        console.log(result);
+        //this.router.navigate(['/home']);
+      },
+      error: (error) => {
+        console.log(error.error.message);
+        //this.errorMesssageFromServer = error.error.message;
+      }
+    });
   }
 
 }

@@ -65,6 +65,6 @@ exports.addComment = async (id, commentData) => {
     const log = await Log.findById(id);
 
     log.commentList.push(commentData);
-    await log.save();
+    log.save();
     return log;
 }

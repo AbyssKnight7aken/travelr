@@ -290,3 +290,19 @@ body {
         margin-bottom: 2rem;
     }
 }
+
+p.error {
+	text-align: left;
+	border-radius: 0.3em;
+	color: red;
+	padding-top: 0;
+  }
+  
+  .input-error {
+	border-bottom: 2px solid red;
+	
+  }
+
+  .error-icon {
+	color: red;
+  }

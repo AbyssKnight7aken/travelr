@@ -54,14 +54,7 @@ export class ApiService {
     return this.http.post<Log[]>(`${this.appUrl}/logs/search`, {searchParam, page});
   }
 
-  // getPosts(limit?: number) {
-    
-  //   const {appUrl} = environment;
-  //   const limitFilter = limit ? `?limit=${limit}` : '';
-  //   return this.http.get<Post[]>(`${appUrl}/posts${limitFilter}`);
-  // }
-
-  // addTheme$(body: { themeName: string, postText: string }): Observable<ITheme> {
-  //   return this.http.post<ITheme>(`${apiUrl}/themes`, body, { withCredentials: true });
-  // }
+  addComment(id: string, comment: FormData) {
+    return this.http.post<any>(`${this.appUrl}/logs/${id}/comments`, comment);
+  }
 }

@@ -10,6 +10,7 @@ export interface Log {
     }
   };
   location: string;
+  commentList: [];
   _id?: string;
   _ownerId: User;
   created_at: string;
