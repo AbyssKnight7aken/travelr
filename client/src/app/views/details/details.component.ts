@@ -4,6 +4,7 @@ import { ApiService } from 'src/app/services/api.service';
 import { Log } from 'src/app/types/log';
 import { SessionService } from 'src/app/services/session.service';
 import { User } from 'src/app/types/user';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-details',
@@ -11,24 +12,25 @@ import { User } from 'src/app/types/user';
   styleUrls: ['./details.component.scss']
 })
 export class DetailsComponent implements OnInit {
-  constructor(private apiService: ApiService, private router: Router, private activatedRoute: ActivatedRoute, private sessionService: SessionService, ) { }
+  constructor(private apiService: ApiService, private router: Router, private activatedRoute: ActivatedRoute, private sessionService: SessionService,) { }
 
   get isLoggedIn(): boolean {
     return this.sessionService.hasUser;
   }
-  
-  log!: Log | null; 
-  user!:User | null;
+
+  log!: Log | null;
+  user!: User | null;
   avatar: string | undefined;
   image: string | undefined;
-  isOwner:Boolean = false;
+  isOwner: Boolean = false;
   logId!: string;
   isShown: boolean = false;
+  isLoading: boolean = true;
+  showComments: boolean = false;
   name!: string;
 
   like(): void {
     console.log('like');
-
   }
 
   ngOnInit(): void {
@@ -39,6 +41,7 @@ export class DetailsComponent implements OnInit {
         next: (result) => {
           this.log = result;
           this.name = result.name;
+          this.isLoading = !this.isLoading;
           this.avatar = this.getImageAsBase64(this.log?._ownerId.img.data.data);
           this.image = this.getImageAsBase64(this.log?.img.data.data);
           this.isOwner = this.user?._id === this.log?._ownerId._id;
@@ -80,6 +83,17 @@ export class DetailsComponent implements OnInit {
       },
       complete: () => this.router.navigate(['home'])
     });
-}
+  }
+
+  showCommentSection(): void {
+    this.showComments = !this.showComments;
+  }
+
+  addComment(commentForm: NgForm): void {
+    if (commentForm.invalid) {
+      return;
+    }
+
+  }
 
 }
