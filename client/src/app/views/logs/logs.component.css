@@ -33,6 +33,12 @@ section#hero {
     position: inherit;
 }
 
+.loader {
+	margin-top: 5rem;
+	/* min-height: calc(100vh - 60px); */
+}
+
+
 /* RESPONSIVE */
 @media (max-width: 992px) {
     .rescent {

@@ -8,31 +8,47 @@ import { Log } from 'src/app/types/log';
   templateUrl: './logs.component.html',
   styleUrls: ['./logs.component.css']
 })
-export class LogsComponent implements OnInit  {
+export class LogsComponent implements OnInit {
   constructor(private apiService: ApiService) { }
+
+  logs!: Log[];
   pages!: number;
+  isLoading: boolean = true;
+  showPagination: boolean = false;
+
   ngOnInit(): void {
     this.apiService.getCount().subscribe(
+      {
+        next: (result) => {
+
+          this.pages = result;
+          console.log(result);
+        },
+        error: (error) => {
+          console.log(error.error.message);
+        }
+      }
+    );
+  }
+
+
+  currentPage$ = new BehaviorSubject<number>(1);
+
+  currentPageLogs$ = this.currentPage$.pipe(
+    switchMap((currentPage) => this.apiService.getLogs(currentPage))
+  ).subscribe(
     {
       next: (result) => {
-        
-        this.pages = result;
-        console.log(result);
+        this.logs = result;
+        console.log(this.logs);
+        this.isLoading = false;
+        this.showPagination = true;
       },
       error: (error) => {
         console.log(error.error.message);
       }
     }
-  );
-  }
-
-  
-  currentPage$ = new BehaviorSubject<number>(1);
-  //currentPageLogs$!: Observable<Log[]>;
-
-    currentPageLogs$ = this.currentPage$.pipe(
-      switchMap((currentPage) => this.apiService.getLogs(currentPage))
-    );
+  )
 
   nextPage() {
     this.currentPage$.next(this.currentPage$.value + 1);
@@ -45,3 +61,5 @@ export class LogsComponent implements OnInit  {
   }
 
 }
+
+
