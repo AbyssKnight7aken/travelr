@@ -20,7 +20,7 @@ export class EditComponent implements OnInit {
   selectedFile: any
   fileName: string = '';
   id: string = this.activatedRoute.snapshot.params['logId'];
-  date:any
+  date: any;
 
   ngOnInit(): void {
     this.apiService.getDetails(this.id).subscribe(
@@ -28,7 +28,11 @@ export class EditComponent implements OnInit {
         next: (result) => {
           this.log = result;
           this.image = this.getImageAsBase64();
-          this.date = this.datePipe.transform(this.log.date, 'yyyy-MM-dd');
+          const parsedDate = new Date(this.log.date);
+          console.log(parsedDate);
+          console.log(this.log.date);
+          
+          this.date = this.datePipe.transform(parsedDate, 'yyyy-MM-dd');
           console.log(this.log);
         },
         error: (error) => {

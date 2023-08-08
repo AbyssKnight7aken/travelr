@@ -12,7 +12,7 @@
                         [ngClass]="inputName.errors && inputName.touched ?  'login__icon fa-brands fa-pix error-icon' : 'login__icon fa-brands fa-pix'"></i>
                     <input [ngClass]="inputName.errors && inputName.touched ?  'input-error' : '' " type="text"
                         class="login__input" name="name" placeholder="Name" ngModel #inputName="ngModel" required
-                        minlength="3" maxlength="20" [ngModel]="log.name">
+                        minlength="3" maxlength="20" [ngModel]="log?.name">
                 </div>
 
                 <ng-container *ngIf="inputName.touched">
@@ -47,7 +47,7 @@
                         [ngClass]="inputDescription.errors && inputDescription.touched ?  'login__icon fas fa-comment error-icon' : 'login__icon fas fa-comment'"></i>
                     <textarea [ngClass]="inputDescription.errors && inputDescription.touched ?  'input-error' : '' "
                         type="text" class="login__input" name="description" placeholder="Description" ngModel
-                        #inputDescription="ngModel" required minlength="10" maxlength="50" [ngModel]="log.description"></textarea>
+                        #inputDescription="ngModel" required minlength="10" maxlength="50" [ngModel]="log?.description"></textarea>
                 </div>
 
                 <ng-container *ngIf="inputDescription.touched">
@@ -70,7 +70,7 @@
                         [ngClass]="inputLocation.errors && inputLocation.touched ?  'login__icon fa-solid fa-location-crosshairs error-icon' : 'login__icon fa-solid fa-location-crosshairs'"></i>
                     <input [ngClass]="inputLocation.errors && inputLocation.touched ?  'input-error' : '' " type="text"
                         class="login__input" name="location" placeholder="Location" ngModel #inputLocation="ngModel"
-                        required minlength="5" maxlength="30" [ngModel]="log.location">
+                        required minlength="5" maxlength="30" [ngModel]="log?.location">
                 </div>
 
                 <ng-container *ngIf="inputLocation.touched">
