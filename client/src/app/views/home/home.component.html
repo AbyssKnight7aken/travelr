@@ -4,14 +4,14 @@
         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum, nisi inventore!<br /> Tempore modi beatae
             culpa consequuntur, earum eos non dolore aperiam,<br /> ratione possimus officia expedita accusamus odio
             voluptas adipisci fugiat.</p>
-
-        <ul class="rescent" *ngIf="rescentLogs">
-            <li *ngFor="let log of rescentLogs">
-                <a routerLink="/logs/{{log._id}}" >
-                    <app-card [log]="log" />
-                </a>
-            </li>
-        </ul>
+            <app-loader class="loader" *ngIf="!rescentLogs"/>
+            <ul class="rescent" *ngIf="rescentLogs">
+                <li *ngFor="let log of rescentLogs">
+                    <a routerLink="/logs/{{log._id}}" >
+                        <app-card [log]="log" />
+                    </a>
+                </li>
+            </ul>
 
     </section>
 

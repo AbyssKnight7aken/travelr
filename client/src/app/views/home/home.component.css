@@ -25,6 +25,10 @@ ul {
     align-items: center;
 }
 
+.loader {
+    margin-top: 10rem;
+}
+
 /* RESPONSIVE */
 @media (max-width: 992px) {
     .rescent {
