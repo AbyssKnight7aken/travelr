@@ -39,7 +39,7 @@ button::-moz-focus-inner {
     /* --m-background is set as inline style */
     background: var(--m-background);
 
-    opacity: 0.8;
+    opacity: 0.9;
 }
 
 /* using :target */
