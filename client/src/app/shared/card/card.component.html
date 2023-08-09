@@ -1,7 +1,7 @@
 <div class="container" [ngStyle]="{ 'background-image': 'url(' + 'data:image/png;base64,' + getImageAsBase64() + ')'}">
    <div class="container__info">
-      <span><i class="fas fa-eye"></i>2350</span>
-      <span><i class="fas fa-comment-alt"></i>624</span>
+      <span><i class="fas fa-heart"></i>{{log.likes.length}}</span>
+      <span><i class="fas fa-comment-alt"></i>{{log.commentList.length}}</span>
       <span><i class="fas fa-download"></i>1470</span>
    </div>
    <div class="container__profile">

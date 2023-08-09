@@ -57,4 +57,8 @@ export class ApiService {
   addComment(id: string, comment: FormData) {
     return this.http.post<any>(`${this.appUrl}/logs/${id}/comments`, comment);
   }
+
+  addLike(id: string) {
+    return this.http.get<Log>(`${this.appUrl}/logs/${id}/likes`);
+  }
 }

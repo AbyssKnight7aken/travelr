@@ -5,6 +5,7 @@ import { Log } from 'src/app/types/log';
 import { SessionService } from 'src/app/services/session.service';
 import { User } from 'src/app/types/user';
 import { NgForm } from '@angular/forms';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-details',
@@ -12,7 +13,7 @@ import { NgForm } from '@angular/forms';
   styleUrls: ['./details.component.scss']
 })
 export class DetailsComponent implements OnInit {
-  constructor(private apiService: ApiService, private router: Router, private activatedRoute: ActivatedRoute, private sessionService: SessionService,) { }
+  constructor(private apiService: ApiService, private router: Router, private activatedRoute: ActivatedRoute, private sessionService: SessionService, private authService: AuthService) { }
 
   get isLoggedIn(): boolean {
     return this.sessionService.hasUser;
@@ -32,10 +33,40 @@ export class DetailsComponent implements OnInit {
 
   like(): void {
     console.log('like');
+    this.apiService.addLike(this.logId,).subscribe({
+      next: () => {
+        this.apiService.getDetails(this.logId).subscribe(
+          {
+            next: (result) => {
+              this.log = result;
+            },
+            error: (error) => {
+              console.log(error.error.message);
+            }
+          }
+        );
+      },
+      error: (error) => {
+        console.log(error.error.message);
+        //this.errorMesssageFromServer = error.error.message;
+      }
+    });
   }
 
   ngOnInit(): void {
-    this.user = this.sessionService.getUserData();
+    //this.user = this.sessionService.getUserData();
+
+    this.authService.getUserInfo().subscribe(
+      {
+        next: (userInfo) => {
+          this.user = userInfo;
+        },
+        error: (error) => {
+          console.log(error.error.message);
+        }
+      }
+    );
+
     this.logId = this.activatedRoute.snapshot.params['logId'];
     this.apiService.getDetails(this.logId).subscribe(
       {
@@ -101,10 +132,18 @@ export class DetailsComponent implements OnInit {
     formData.append('comment', commentForm.value.comment);
     
     this.apiService.addComment(this.logId, formData).subscribe({
-      next: (result) => {
-        //this.sessionService.createSession(user);
-        console.log(result);
-        //this.router.navigate(['/home']);
+      next: () => {
+        commentForm.resetForm();
+        this.apiService.getDetails(this.logId).subscribe(
+          {
+            next: (result) => {
+              this.log = result;
+            },
+            error: (error) => {
+              console.log(error.error.message);
+            }
+          }
+        );
       },
       error: (error) => {
         console.log(error.error.message);

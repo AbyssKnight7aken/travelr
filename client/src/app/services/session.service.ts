@@ -7,7 +7,7 @@ import { User } from '../types/user';
 })
 export class SessionService {
   constructor() { }
-
+  
   createSession(token: any): void {
     localStorage.setItem('token', JSON.stringify(token));
   }

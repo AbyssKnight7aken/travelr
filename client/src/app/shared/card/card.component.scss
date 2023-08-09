@@ -39,12 +39,14 @@ body {
     }
 
     .container__info {
+        background-color: #090909;
         @include bottom;
         bottom: 20%;
         display: flex;
         align-items: flex-end;
         padding: 15px 30px;
         color: $bright-color;
+        opacity: 0.6;
 
         span {
             margin-right: 20px;

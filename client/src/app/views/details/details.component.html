@@ -7,9 +7,9 @@
             <div class="container" [ngStyle]="{ 'background-image': 'url(' + 'data:image/png;base64,' + image + ')'}">
                 <div class="container__info">
                     <div class="actions">
-                        <span *ngIf="!isOwner" (click)="like()"><i class="fas fa-heart"></i>2350</span>
-                        <span *ngIf="isOwner"><i class="fas fa-heart"></i>2350</span>
-                        <span (click)="showCommentSection()"><i class="fas fa-comment-alt"></i>624</span>
+                        <span *ngIf="!isOwner" (click)="like()"><i class="fas fa-heart"></i>{{log.likes.length}}</span>
+                        <span *ngIf="isOwner"><i class="fas fa-heart"></i>{{log.likes.length}}</span>
+                        <span (click)="showCommentSection()"><i class="fas fa-comment-alt"></i>{{log.commentList.length}}</span>
                         <span><i class="fas fa-download"></i>1470</span>
                     </div>
                     <div *ngIf="isOwner" class="owner">
@@ -46,9 +46,9 @@
 
             <div *ngFor="let comment of log?.commentList" class="list">
                 <div class="user">
-                    <div class="user-image"><img src="../../../assets/images/default_user.png" alt="image"></div>
+                    <div class="user-image"><img [ngStyle]="{ 'background-image': 'url(' + 'data:image/png;base64,' + getImageAsBase64(comment.user.img.data.data) + ')'}"></div>
                     <div class="user-meta">
-                        <div class="name">DON BASTON</div>
+                        <div class="name"><strong>{{comment.user.username}}</strong></div>
                         <div class="day">1 month ago</div>
                     </div>
                 </div>
@@ -56,10 +56,10 @@
             </div>
 
         </div>
-        <div *ngIf="!isOwner" class="comment-box">
+        <div *ngIf="isLoggedIn" class="comment-box">
             <div class="user">
-                <div class="image"><img src="../../../assets/images/default_user.png" alt="image"></div>
-                <div class="name">Urgazmus</div>
+                <div class="image"><img [ngStyle]="{ 'background-image': 'url(' + 'data:image/png;base64,' + getImageAsBase64(user?.img?.data?.data) + ')'}"></div>
+                <div class="name"><strong>{{user?.username}}</strong></div>
             </div>
             <form #commentForm="ngForm" (ngSubmit)="addComment(commentForm)">
                 <textarea name="comment" placeholder="Your Message" ngModel #inputComment="ngModel" required
