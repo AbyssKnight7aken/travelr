@@ -28,7 +28,7 @@ exports.getByUserId = async (userId, page, itemsPerPage) => {
 }
 
 exports.getById = async (id) => {
-    const log = Log.findById(id).populate('_ownerId');
+    const log = Log.findById(id).populate('_ownerId').populate('commentList.user');
     return log;
 }
 
@@ -62,9 +62,15 @@ exports.getSearchCount = async (searchParam) => {
 };
 
 exports.addComment = async (id, commentData) => {
-    const log = await Log.findById(id);
-
+    const log = await Log.findById(id).populate('_ownerId').populate('commentList.user');
     log.commentList.push(commentData);
+    log.save();
+    return log;
+}
+
+exports.addLike = async (id, userId) => {
+    const log = await Log.findById(id).populate('_ownerId').populate('commentList.user');
+    log.likes.push(userId);
     log.save();
     return log;
 }

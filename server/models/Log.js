@@ -44,6 +44,12 @@ const LogSchema = new mongoose.Schema({
             type: String,
             required: [true, 'Comment message is required']
         }
+    }],
+    likes: [{
+        user: {
+            type: mongoose.Types.ObjectId,
+            ref: 'User'
+        }
     }]
 });
 

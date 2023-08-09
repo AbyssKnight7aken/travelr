@@ -20,13 +20,11 @@ exports.register = async (username, email, password, img) => {
 
 exports.login = async ({ email, password }) => {
     const user = await User.findOne({ email }).select('+password').collation({ locale: 'en', strength: 2 });
-    console.log(user);
 
     if (!user) {
         throw new Error('Invalid username or password!');
     }
 
-    console.log(password, user.password);
     const isValid = await bcrypt.compare(password, user.password);
 
     if (!isValid) {
@@ -39,7 +37,6 @@ exports.login = async ({ email, password }) => {
 
 exports.update = async (email, userData) => {
     const existing = await User.findOne({ email }).select('+password').collation({ locale: 'en', strength: 2 });
-    console.log(existing);
 
     existing.username = userData.username;
     existing.email = userData.email;
