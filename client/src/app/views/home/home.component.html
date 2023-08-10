@@ -1,17 +1,27 @@
 <main>
     <section id="hero">
         <h1>Welcome</h1>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum, nisi inventore!<br /> Tempore modi beatae
+        <!-- <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nostrum, nisi inventore!<br /> Tempore modi beatae
             culpa consequuntur, earum eos non dolore aperiam,<br /> ratione possimus officia expedita accusamus odio
-            voluptas adipisci fugiat.</p>
-            <app-loader class="loader" *ngIf="!rescentLogs"/>
-            <ul class="rescent" *ngIf="rescentLogs">
-                <li *ngFor="let log of rescentLogs">
-                    <a routerLink="/logs/{{log._id}}" >
-                        <app-card [log]="log" />
-                    </a>
-                </li>
-            </ul>
+            voluptas adipisci fugiat.</p> -->
+        <p>Hello and welcome to <strong>travelR</strong> - your passport to a world of captivating journeys and
+            breathtaking vistas!<br />
+            Embark on a visual odyssey unlike any other as we invite you to share the magic of your journeys all
+            over<br />
+            the world through the art of photography.</p>
+        <p>At <strong>travelR</strong>, we believe that every snapshot holds a story waiting to be told.<br /> Our platform is a haven for
+            wanderers, explorers, and adventurers like you,<br /> who have traversed the farthest corners of the Earth and
+            captured its beauty one click at a time.<br /> Whether you've stood atop misty mountains, strolled through
+            bustling markets, or found solace on serene shores,<br /> traverR is your canvas to paint the world with your
+            travel tales.</p>
+        <app-loader class="loader" *ngIf="!rescentLogs" />
+        <ul class="rescent" *ngIf="rescentLogs">
+            <li *ngFor="let log of rescentLogs">
+                <a routerLink="/logs/{{log._id}}">
+                    <app-card [log]="log" />
+                </a>
+            </li>
+        </ul>
 
     </section>
 

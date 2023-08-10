@@ -46,7 +46,7 @@ button {
     left: 0;
     width: $size;
     height: $thickness;
-    border-radius: $thickness / 2;
+    border-radius: calc($thickness / 2);
     background: #fff;
 
     transition: all 0.15s ease;
