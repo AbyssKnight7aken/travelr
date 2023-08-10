@@ -199,6 +199,7 @@ body {
     height: auto;
     margin: 0 auto;
     margin-bottom: 3rem;
+    margin-top: -8rem;
 }
 
 .post-comment .list {
@@ -232,7 +233,7 @@ body {
 }
 
 .post-comment .comment-post {
-    padding: 0 0 15px;
+    padding: 0 0 15px 58px;
 }
 
 // Comment Box
@@ -279,14 +280,14 @@ body {
     float: right;
     padding: 6px 10px;
     border: none;
-    background: #009cff;
+    background: #22a6b3;
     color: #eee;
     cursor: pointer;
     border-radius: 3px;
 }
 
 .comment-box .comment-submit:hover {
-    background: #0076bf;
+    background: #22a6b3;
 }
 
 // @media screen and(max-width:660px){

@@ -7,8 +7,8 @@
             <div class="container" [ngStyle]="{ 'background-image': 'url(' + 'data:image/png;base64,' + image + ')'}">
                 <div class="container__info">
                     <div class="actions">
-                        <span *ngIf="!isOwner" (click)="like()"><i class="fas fa-heart"></i>{{log.likes.length}}</span>
-                        <span *ngIf="isOwner"><i class="fas fa-heart"></i>{{log.likes.length}}</span>
+                        <span *ngIf=" user && !isOwner && !isLiked" (click)="like()"><i class="fas fa-heart"></i>{{log.likes.length}}</span>
+                        <span *ngIf="!user || isOwner || isLiked"><i class="fas fa-heart"></i>{{log.likes.length}}</span>
                         <span (click)="showCommentSection()"><i class="fas fa-comment-alt"></i>{{log.commentList.length}}</span>
                         <span><i class="fas fa-download"></i>1470</span>
                     </div>
@@ -30,14 +30,6 @@
             </div>
         </div>
 
-        <!-- <div class="addComments">
-            <form>
-                <textarea id="comment-textarea" name="comment" cols="40" rows="10"
-                placeholder="Add comment..."></textarea>
-                <button type="submit">Post</button>
-            </form>
-        </div> -->
-
 
     </section>
 
@@ -49,7 +41,7 @@
                     <div class="user-image"><img [ngStyle]="{ 'background-image': 'url(' + 'data:image/png;base64,' + getImageAsBase64(comment.user.img.data.data) + ')'}"></div>
                     <div class="user-meta">
                         <div class="name"><strong>{{comment.user.username}}</strong></div>
-                        <div class="day">1 month ago</div>
+                        <div class="day">{{getCreatedAt(comment._id)}}</div>
                     </div>
                 </div>
                 <div class="comment-post">{{comment.comment}}</div>
