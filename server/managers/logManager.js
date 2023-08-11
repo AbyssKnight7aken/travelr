@@ -74,3 +74,10 @@ exports.addLike = async (id, userId) => {
     log.save();
     return log;
 }
+
+exports.downloadImage = async (id, userId) => {
+    const log = await Log.findById(id).populate('_ownerId').populate('commentList.user');
+    log.downloads.push(userId);
+    log.save();
+    return log;
+}

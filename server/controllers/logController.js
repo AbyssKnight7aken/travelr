@@ -124,10 +124,9 @@ logController.post('/', async (req, res) => {
     }
 });
 
-logController.get('/:id', async (req, res, next) => {
-    const item = await logManager.getById(req.params.id);
-    //console.log(item);
-    res.json(item);
+logController.get('/:id', async (req, res) => {
+    const log = await logManager.getById(req.params.id);
+    res.json(log);
 });
 
 logController.put('/:id', isAuth, async (req, res, next) => {
@@ -202,7 +201,29 @@ logController.get('/:id/likes', isAuth, async (req, res) => {
     const logId = req.params.id;
     const userId = req.user._id;
     try {
+        const log = await logManager.getById(logId);
+        const isLiked = log.likes.map(x => x._id.toString()).includes(req.user?._id.toString());
+        if (isLiked) {
+            return res.status(400).json({ message: 'You have already liked this log!' });
+        }
+
         const result = await logManager.addLike(logId, userId);
+        res.json(result);
+    } catch (err) {
+        const message = parseError(err);
+        console.log(message);
+        res.status(400).json({ message });
+    }
+});
+
+
+//DOWNLOAD==================================================================
+logController.get('/:id/downloads', isAuth, async (req, res) => {
+    const logId = req.params.id;
+    const userId = req.user._id;
+    try {
+        const log = await logManager.getById(logId);
+        const result = await logManager.downloadImage(logId, userId);
         res.json(result);
     } catch (err) {
         const message = parseError(err);

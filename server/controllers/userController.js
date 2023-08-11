@@ -97,9 +97,12 @@ userController.get('/logout', async (req, res) => {
 userController.get('/profile', async (req, res) => {
     //console.log(req.user.email);
     try {
-        const user = await userManager.getUserInfo(req.user.email);
-        //console.log(user);
-        res.status(200).json(user);
+        if (req.user.email) {
+            const user = await userManager.getUserInfo(req.user.email);
+            //console.log(user);
+            return res.status(200).json(user);
+        }
+        
     } catch (err) {
         const message = parseError(err);
         console.log(message);
