@@ -61,4 +61,8 @@ export class ApiService {
   addLike(id: string) {
     return this.http.get<Log>(`${this.appUrl}/logs/${id}/likes`);
   }
+
+  downloadImage(id: string) {
+    return this.http.get<Log>(`${this.appUrl}/logs/${id}/downloads`);
+  }
 }

@@ -11,10 +11,11 @@ import * as moment from 'moment';
 @Component({
   selector: 'app-details',
   templateUrl: './details.component.html',
-  styleUrls: ['./details.component.scss']
+  styleUrls: ['./details.component.scss'],
 })
 export class DetailsComponent implements OnInit {
   constructor(private apiService: ApiService, private router: Router, private activatedRoute: ActivatedRoute, private sessionService: SessionService, private authService: AuthService) { }
+  
 
   get isLoggedIn(): boolean {
     return this.sessionService.hasUser;
@@ -52,7 +53,7 @@ export class DetailsComponent implements OnInit {
     }
 
     this.logId = this.activatedRoute.snapshot.params['logId'];
-    
+
     this.apiService.getDetails(this.logId).subscribe(
       {
         next: (result) => {
@@ -63,7 +64,7 @@ export class DetailsComponent implements OnInit {
           this.image = this.getImageAsBase64(this.log?.img.data.data);
           this.isOwner = this.user?._id === this.log?._ownerId._id;
           this.isLiked = this.log.likes.map((x: { _id: { toString: () => any; }; }) => x._id.toString()).includes(this.user?._id.toString());
-          console.log('isLiked ->',this.isLiked);
+          console.log('isLiked ->', this.isLiked);
           console.log(this.isOwner);
           console.log(this.log);
         },
@@ -110,9 +111,9 @@ export class DetailsComponent implements OnInit {
 
   like(): void {
     console.log('like');
-    this.apiService.addLike(this.logId,).subscribe({
+    this.apiService.addLike(this.logId).subscribe({
       next: () => {
-        this,this.isLiked = true;
+        this.isLiked = true;
         this.apiService.getDetails(this.logId).subscribe(
           {
             next: (result) => {
@@ -140,7 +141,7 @@ export class DetailsComponent implements OnInit {
 
     const formData = new FormData();
     formData.append('comment', commentForm.value.comment);
-    
+
     this.apiService.addComment(this.logId, formData).subscribe({
       next: () => {
         commentForm.resetForm();
@@ -163,9 +164,51 @@ export class DetailsComponent implements OnInit {
   }
 
   getCreatedAt(id: string): string {
-    const timeStamp = id.toString().substring(0,8);
+    const timeStamp = id.toString().substring(0, 8);
     const date = new Date(parseInt(timeStamp, 16) * 1000);
     return moment(date).fromNow();
+  }
+
+  downloadImage(): void {
+    if (this.image) {
+      const byteCharacters = atob(this.image);
+      const byteNumbers = new Array(byteCharacters.length);
+
+      for (let i = 0; i < byteCharacters.length; i++) {
+        byteNumbers[i] = byteCharacters.charCodeAt(i);
+      }
+
+      const byteArray = new Uint8Array(byteNumbers);
+      const blob = new Blob([byteArray], { type: 'image/jpeg' });
+
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'image.jpg';
+      a.click();
+
+      this.apiService.downloadImage(this.logId).subscribe({
+        next: () => {
+          this.apiService.getDetails(this.logId).subscribe(
+            {
+              next: (result) => {
+                this.log = result;
+              },
+              error: (error) => {
+                console.log(error.error.message);
+              }
+            }
+          );
+        },
+        error: (error) => {
+          console.log(error.error.message);
+          //this.errorMesssageFromServer = error.error.message;
+        }
+      });
+
+      // Clean up the URL object
+      window.URL.revokeObjectURL(url);
+    }
   }
 
 }

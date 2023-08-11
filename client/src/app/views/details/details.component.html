@@ -10,7 +10,8 @@
                         <span *ngIf=" user && !isOwner && !isLiked" (click)="like()"><i class="fas fa-heart"></i>{{log.likes.length}}</span>
                         <span *ngIf="!user || isOwner || isLiked"><i class="fas fa-heart"></i>{{log.likes.length}}</span>
                         <span (click)="showCommentSection()"><i class="fas fa-comment-alt"></i>{{log.commentList.length}}</span>
-                        <span><i class="fas fa-download"></i>1470</span>
+                        <span *ngIf="user" (click)="downloadImage()"><i class="fas fa-download"></i>{{log.downloads.length}}</span>
+                        <span *ngIf="!user"><i class="fas fa-download"></i>{{log.downloads.length}}</span>
                     </div>
                     <div *ngIf="isOwner" class="owner">
                         <a routerLink="/logs/{{log?._id}}/edit"><i class="fas fa-pen-to-square"></i></a>

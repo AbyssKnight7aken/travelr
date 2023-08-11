@@ -10,6 +10,7 @@ import { EditComponent } from './edit/edit.component';
 import { LogsRoutingModule } from './logs-routing.module';
 import { SearchComponent } from './search/search.component';
 import { MissingComponent } from './missing/missing.component';
+import { AboutComponent } from './about/about.component';
 
 
 
@@ -21,7 +22,8 @@ import { MissingComponent } from './missing/missing.component';
     DetailsComponent,
     EditComponent,
     SearchComponent,
-    MissingComponent
+    MissingComponent,
+    AboutComponent
   ],
   imports: [
     CommonModule,

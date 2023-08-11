@@ -4,6 +4,7 @@
         <ul class="links">
             <li> <a routerLink="home">Home</a></li>
             <li> <a routerLink="/logs">Logs</a></li>
+            <li> <a routerLink="about">About</a></li>
             <li *ngIf="isLoggedIn"> <a routerLink="/logs/create">Add Log</a></li>
             <li *ngIf="isLoggedIn"> <a routerLink="/user/profile">Welcome,<strong>{{user.username}}</strong></a></li>
         </ul>
