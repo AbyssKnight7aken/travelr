@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from 'src/app/services/api.service';
 import { Log } from 'src/app/types/log';
@@ -7,13 +7,14 @@ import { User } from 'src/app/types/user';
 import { NgForm } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth.service';
 import * as moment from 'moment';
+import { Subscription, interval } from 'rxjs';
 
 @Component({
   selector: 'app-details',
   templateUrl: './details.component.html',
   styleUrls: ['./details.component.scss'],
 })
-export class DetailsComponent implements OnInit {
+export class DetailsComponent implements OnInit, OnDestroy {
   constructor(private apiService: ApiService, private router: Router, private activatedRoute: ActivatedRoute, private sessionService: SessionService, private authService: AuthService) { }
   
 
@@ -23,6 +24,7 @@ export class DetailsComponent implements OnInit {
 
   log: any;
   //log!: Log | null;
+  subscriptions: Subscription = new Subscription();
   user!: User | null;
   avatar: string | undefined;
   image: string | undefined;
@@ -34,13 +36,11 @@ export class DetailsComponent implements OnInit {
   name!: string;
   isLiked: boolean = false;
 
-
-
   ngOnInit(): void {
     this.user = this.sessionService.getUserData();
 
     if (this.user) {
-      this.authService.getUserInfo().subscribe(
+      const currenUser$ = this.authService.getUserInfo().subscribe(
         {
           next: (userInfo) => {
             this.user = userInfo;
@@ -50,11 +50,12 @@ export class DetailsComponent implements OnInit {
           }
         }
       );
+      this.subscriptions.add(currenUser$);
     }
 
     this.logId = this.activatedRoute.snapshot.params['logId'];
 
-    this.apiService.getDetails(this.logId).subscribe(
+    const currentLog$ = this.apiService.getDetails(this.logId).subscribe(
       {
         next: (result) => {
           this.log = result;
@@ -73,6 +74,7 @@ export class DetailsComponent implements OnInit {
         }
       }
     );
+    this.subscriptions.add(currentLog$);
   }
 
   getImageAsBase64(file: any): string {
@@ -97,12 +99,13 @@ export class DetailsComponent implements OnInit {
   onDeleteConfirmed() {
     console.log('Delete operation confirmed');
 
-    this.apiService.deleteByLogId(this.logId).subscribe({
+    const deleteLog$ = this.apiService.deleteByLogId(this.logId).subscribe({
       error: (error) => {
         console.log(error.error.message);
       },
       complete: () => this.router.navigate(['home'])
     });
+    this.subscriptions.add(deleteLog$);
   }
 
   showCommentSection(): void {
@@ -111,7 +114,7 @@ export class DetailsComponent implements OnInit {
 
   like(): void {
     console.log('like');
-    this.apiService.addLike(this.logId).subscribe({
+    const likeLog$ = this.apiService.addLike(this.logId).subscribe({
       next: () => {
         this.isLiked = true;
         this.apiService.getDetails(this.logId).subscribe(
@@ -130,6 +133,7 @@ export class DetailsComponent implements OnInit {
         //this.errorMesssageFromServer = error.error.message;
       }
     });
+    this.subscriptions.add(likeLog$);
   }
 
   addComment(commentForm: NgForm): void {
@@ -142,7 +146,7 @@ export class DetailsComponent implements OnInit {
     const formData = new FormData();
     formData.append('comment', commentForm.value.comment);
 
-    this.apiService.addComment(this.logId, formData).subscribe({
+    const commentLog$ = this.apiService.addComment(this.logId, formData).subscribe({
       next: () => {
         commentForm.resetForm();
         this.apiService.getDetails(this.logId).subscribe(
@@ -161,6 +165,7 @@ export class DetailsComponent implements OnInit {
         //this.errorMesssageFromServer = error.error.message;
       }
     });
+    this.subscriptions.add(commentLog$);
   }
 
   getCreatedAt(id: string): string {
@@ -187,7 +192,7 @@ export class DetailsComponent implements OnInit {
       a.download = 'image.jpg';
       a.click();
 
-      this.apiService.downloadImage(this.logId).subscribe({
+      const downloadLog$ = this.apiService.downloadImage(this.logId).subscribe({
         next: () => {
           this.apiService.getDetails(this.logId).subscribe(
             {
@@ -205,9 +210,17 @@ export class DetailsComponent implements OnInit {
           //this.errorMesssageFromServer = error.error.message;
         }
       });
+      this.subscriptions.add(downloadLog$);
 
       // Clean up the URL object
       window.URL.revokeObjectURL(url);
+    }
+  }
+
+  ngOnDestroy(): void {
+    if (this.subscriptions) {
+      this.subscriptions.unsubscribe();
+      console.log('unsubscribed');      
     }
   }
 

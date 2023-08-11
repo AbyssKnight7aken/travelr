@@ -1,23 +1,22 @@
-import { Component } from '@angular/core';
-import { CardComponent } from '../../shared/card/card.component'
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ApiService } from 'src/app/services/api.service';
 import { Log } from 'src/app/types/log';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit, OnDestroy {
   constructor(private apiService: ApiService, private router: Router) { }
-  rescentLogs!: Log[];
 
-  // avatar = this.getImageAsBase64(this.log._ownerId.img.data.data);
-  // image = this.getImageAsBase64(this.log.img.data.data);
+  rescentLogs!: Log[];
+  subscriptions: Subscription = new Subscription();
   
   ngOnInit(): void {
-    this.apiService.getRescentLogs().subscribe(
+    const logs$ = this.apiService.getRescentLogs().subscribe(
       {
         next: (logs) => {
           this.rescentLogs = logs;
@@ -28,5 +27,14 @@ export class HomeComponent {
         }
       }
     );
+    this.subscriptions.add(logs$);
+  }
+
+  ngOnDestroy(): void {
+    if (this.subscriptions) {
+      this.subscriptions.unsubscribe();
+      console.log('unsubscribed');
+      
+    }
   }
 }

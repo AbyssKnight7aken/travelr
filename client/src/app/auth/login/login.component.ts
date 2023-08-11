@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
 import { SessionService } from 'src/app/services/session.service';
 
@@ -9,9 +10,10 @@ import { SessionService } from 'src/app/services/session.service';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent {
+export class LoginComponent implements OnDestroy {
   constructor(private authService: AuthService, private router: Router, private sessionService: SessionService) { }
-
+  
+  subscriptions: Subscription = new Subscription();
   errorMesssageFromServer!: string;
   validateEmail: boolean = true;
 
@@ -23,7 +25,7 @@ export class LoginComponent {
     console.log(loginForm.value);
 
 
-    this.authService.login(loginForm.value).subscribe({
+    const existingUser$ = this.authService.login(loginForm.value).subscribe({
       next: (user) => {
         this.sessionService.createSession(user);
         console.log(user);
@@ -34,6 +36,14 @@ export class LoginComponent {
         this.errorMesssageFromServer = error.error.message;
       }
     });
+    this.subscriptions.add(existingUser$);
   }
 
+  ngOnDestroy(): void {
+    if (this.subscriptions) {
+      this.subscriptions.unsubscribe();
+      console.log('unsubscribed');
+      
+    }
+  }
 }

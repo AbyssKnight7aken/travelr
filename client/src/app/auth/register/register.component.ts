@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, NgForm } from '@angular/forms';
+import { Component, OnDestroy } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
 import { SessionService } from 'src/app/services/session.service';
 import { createUserData } from 'src/app/types/createUserData';
@@ -10,9 +11,10 @@ import { createUserData } from 'src/app/types/createUserData';
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css']
 })
-export class RegisterComponent {
+export class RegisterComponent implements OnDestroy {
   constructor( private authService: AuthService, private router: Router, private sessionServise: SessionService) { }
-
+  
+  subscriptions: Subscription = new Subscription();
   errorMesssageFromServer!: string;
   validateEmail:boolean = true;
   url: string = '/assets/images/default_image.png';
@@ -63,7 +65,7 @@ export class RegisterComponent {
     // }
     // console.log(registerForm.value);
 
-    this.authService.register(formData as unknown as createUserData).subscribe({
+    const createdUser$ = this.authService.register(formData as unknown as createUserData).subscribe({
       next: (newUser) => {
         console.log(newUser);
         this.sessionServise.createSession(newUser);
@@ -74,5 +76,14 @@ export class RegisterComponent {
         this.errorMesssageFromServer = error.error.message;
       }
     });
+    this.subscriptions.add(createdUser$);
+  }
+
+  ngOnDestroy(): void {
+    if (this.subscriptions) {
+      this.subscriptions.unsubscribe();
+      console.log('unsubscribed');
+      
+    }
   }
 }

@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { BehaviorSubject, Observable, switchMap } from 'rxjs';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { BehaviorSubject, Subscription } from 'rxjs';
 import { ApiService } from 'src/app/services/api.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { ImageService } from 'src/app/services/image.service';
@@ -11,8 +11,10 @@ import { User } from 'src/app/types/user';
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.css']
 })
-export class ProfileComponent implements OnInit {
+export class ProfileComponent implements OnInit, OnDestroy{
   constructor(private apiService: ApiService, private authService: AuthService, private imageService: ImageService) { }
+  
+  subscriptions: Subscription = new Subscription();
   user: User | undefined;
   userId!: string;
   pages!: number;
@@ -23,14 +25,15 @@ export class ProfileComponent implements OnInit {
   currentPage$ = new BehaviorSubject<number>(1);
 
   ngOnInit(): void {
-    this.authService.getUserInfo().subscribe({
+    const currentUser$ = this.authService.getUserInfo().subscribe({
       next: (userInfo) => {
         this.user = userInfo;
         this.userId = this.user._id;
         this.profilePic = this.imageService.getImageAsBase64(this.user.img.data.data);
         console.log(this.user._id);
         this.currentPage$.subscribe((currentPage) => {
-          this.apiService.getUserLogs(this.userId, currentPage).subscribe({
+          this.subscriptions.add(this.currentPage$);
+          const currentUserLogs$ = this.apiService.getUserLogs(this.userId, currentPage).subscribe({
             next: (result) => {
               this.userLogs$ = result.userLogs;
               this.pages = result.pageCount;
@@ -43,12 +46,14 @@ export class ProfileComponent implements OnInit {
               console.log(error.error.message);
             }
           });
+          this.subscriptions.add(currentUserLogs$);
         }); // <- Missing closing parenthesis for the inner subscribe block
       },
       error: (error) => {
         console.log(error.error.message);
       }
     });
+    this.subscriptions.add(currentUser$);
   }
 
 
@@ -63,6 +68,14 @@ export class ProfileComponent implements OnInit {
   previousPage() {
     if (this.currentPage$.value > 1) {
       this.currentPage$.next(this.currentPage$.value - 1);
+    }
+  }
+
+  ngOnDestroy(): void {
+    if (this.subscriptions) {
+      this.subscriptions.unsubscribe();
+      console.log('unsubscribed');
+      
     }
   }
 }

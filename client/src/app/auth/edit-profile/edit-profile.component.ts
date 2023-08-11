@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
 import { ImageService } from 'src/app/services/image.service';
 import { SessionService } from 'src/app/services/session.service';
@@ -12,9 +13,10 @@ import { User } from 'src/app/types/user';
   templateUrl: './edit-profile.component.html',
   styleUrls: ['./edit-profile.component.css']
 })
-export class EditProfileComponent {
+export class EditProfileComponent implements OnInit, OnDestroy {
   constructor(private router: Router, private authService: AuthService, private sessionServise: SessionService, private imageService: ImageService) { }
-
+  
+  subscriptions: Subscription = new Subscription();
   errorMesssageFromServer!: string;
   validateEmail: boolean = true;
 
@@ -28,7 +30,7 @@ export class EditProfileComponent {
 
 
   ngOnInit(): void {
-    this.authService.getUserInfo().subscribe({
+    const currentUser$ = this.authService.getUserInfo().subscribe({
       next: (userInfo) => {
         this.user = userInfo;
         this.userId = this.user._id;
@@ -40,6 +42,7 @@ export class EditProfileComponent {
         this.errorMesssageFromServer = error.error.message;
       }
     });
+    this.subscriptions.add(currentUser$);
   }
 
 
@@ -104,7 +107,7 @@ export class EditProfileComponent {
 
     // this.router.navigate(['/user/profile']);
 
-    this.authService.updateUserData(formData as unknown as createUserData).subscribe({
+    const editedUser$ = this.authService.updateUserData(formData as unknown as createUserData).subscribe({
       next: (updatedUser) => {
         console.log(updatedUser);
         this.sessionServise.createSession(updatedUser);
@@ -115,5 +118,14 @@ export class EditProfileComponent {
         this.errorMesssageFromServer = error.error.message;
       }
     });
+    this.subscriptions.add(editedUser$);
+  }
+
+  ngOnDestroy(): void {
+    if (this.subscriptions) {
+      this.subscriptions.unsubscribe();
+      console.log('unsubscribed');
+      
+    }
   }
 }

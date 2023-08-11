@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { ApiService } from 'src/app/services/api.service';
 import { Log } from 'src/app/types/log';
 
@@ -9,13 +10,14 @@ import { Log } from 'src/app/types/log';
   templateUrl: './create.component.html',
   styleUrls: ['./create.component.css']
 })
-export class CreateComponent {
+export class CreateComponent implements OnDestroy {
   constructor(private apiService: ApiService, private router: Router) { }
 
   errorMesssageFromServer!: string;
   url: string = '/assets/images/default_image.png';
   selectedFile: any
   fileName: string = '';
+  subscriptions: Subscription = new Subscription();
 
   loadFile(event: any): void {
 
@@ -49,7 +51,7 @@ export class CreateComponent {
     formData.append('location', form.value.location);
     formData.append('img', this.selectedFile);
     
-    this.apiService.create(formData as unknown as Log).subscribe({
+    const newLog$ = this.apiService.create(formData as unknown as Log).subscribe({
       next: (newLog) => {
         console.log(newLog);
         this.router.navigate(['/home']);
@@ -59,6 +61,15 @@ export class CreateComponent {
         this.errorMesssageFromServer = error.error.message;
       }
     });
+    this.subscriptions.add(newLog$);
+  }
+
+  ngOnDestroy(): void {
+    if (this.subscriptions) {
+      this.subscriptions.unsubscribe();
+      console.log('unsubscribed');
+      
+    }
   }
 }
 

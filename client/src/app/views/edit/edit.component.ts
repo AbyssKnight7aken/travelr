@@ -1,16 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from 'src/app/services/api.service';
 import { Log } from 'src/app/types/log';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-edit',
   templateUrl: './edit.component.html',
   styleUrls: ['./edit.component.css']
 })
-export class EditComponent implements OnInit {
+export class EditComponent implements OnInit, OnDestroy {
   constructor(private apiService: ApiService, private router: Router, private activatedRoute: ActivatedRoute, private datePipe: DatePipe) { }
 
   log!: any //TODO: implement data validation !!!
@@ -21,9 +22,10 @@ export class EditComponent implements OnInit {
   fileName: string = '';
   id: string = this.activatedRoute.snapshot.params['logId'];
   date: any;
+  subscriptions: Subscription = new Subscription();
 
   ngOnInit(): void {
-    this.apiService.getDetails(this.id).subscribe(
+    const currentLog$ = this.apiService.getDetails(this.id).subscribe(
       {
         next: (result) => {
           this.log = result;
@@ -41,6 +43,7 @@ export class EditComponent implements OnInit {
         }
       }
     );
+    this.subscriptions.add(currentLog$);
   }
 
   getImageAsBase64(): string {
@@ -119,6 +122,14 @@ export class EditComponent implements OnInit {
         this.errorMesssageFromServer = error.error.message;
       }
     });
+  }
+
+  ngOnDestroy(): void {
+    if (this.subscriptions) {
+      this.subscriptions.unsubscribe();
+      console.log('unsubscribed');
+      
+    }
   }
 
 }

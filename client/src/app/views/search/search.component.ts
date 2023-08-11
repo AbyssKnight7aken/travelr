@@ -1,6 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { BehaviorSubject, switchMap } from 'rxjs';
-import { ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { Log } from 'src/app/types/log';
 import { SearchService } from 'src/app/services/search.service';
 import { ApiService } from 'src/app/services/api.service';
@@ -9,24 +8,18 @@ import { ApiService } from 'src/app/services/api.service';
   selector: 'app-search',
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.css'],
-  changeDetection: ChangeDetectionStrategy.Default
 })
-export class SearchComponent implements OnInit {
+export class SearchComponent implements OnInit, OnDestroy {
   constructor(public searchService: SearchService, private apiService: ApiService) { }
-
-  //page = this.searchService.page;
-
-  //currentPage$ = new BehaviorSubject<number>(1);
+  
+  subscriptions: Subscription = new Subscription();
 
   ngOnInit() {
-    this.searchService.currentPage$.subscribe((currentPage) => {
-      //console.log(currentPage);
-      //this.searchService.page = currentPage;
+    const results$ = this.searchService.currentPage$.subscribe((currentPage) => {
       console.log(this.searchService.currentPage$);
        this.searchService.getSearch().subscribe({
         next: (logs: Log[]) => {
           this.searchService.searchResult = logs;
-          //this.searchService.pages = logs.length;
           console.log(logs);
         },
         error: (error: { error: { message: any; }; }) => {
@@ -34,6 +27,7 @@ export class SearchComponent implements OnInit {
         }
       });
     });
+    this.subscriptions.add(results$);
   }
 
   nextPage() {
@@ -43,6 +37,14 @@ export class SearchComponent implements OnInit {
   previousPage() {
     if (this.searchService.currentPage$.value > 1) {
       this.searchService.currentPage$.next(this.searchService.currentPage$.value - 1);
+    }
+  }
+
+  ngOnDestroy(): void {
+    if (this.subscriptions) {
+      this.subscriptions.unsubscribe();
+      console.log('unsubscribed');
+      
     }
   }
 

@@ -1,5 +1,5 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { BehaviorSubject, Observable, map, switchMap } from 'rxjs';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { BehaviorSubject, Subscription, switchMap } from 'rxjs';
 import { ApiService } from 'src/app/services/api.service';
 import { Log } from 'src/app/types/log';
 
@@ -8,16 +8,17 @@ import { Log } from 'src/app/types/log';
   templateUrl: './logs.component.html',
   styleUrls: ['./logs.component.css']
 })
-export class LogsComponent implements OnInit {
+export class LogsComponent implements OnInit, OnDestroy {
   constructor(private apiService: ApiService) { }
 
   logs!: Log[];
   pages!: number;
+  subscriptions: Subscription = new Subscription();
   isLoading: boolean = true;
   showPagination: boolean = false;
 
   ngOnInit(): void {
-    this.apiService.getCount().subscribe(
+    const allLogs$ = this.apiService.getCount().subscribe(
       {
         next: (result) => {
 
@@ -29,6 +30,7 @@ export class LogsComponent implements OnInit {
         }
       }
     );
+    this.subscriptions.add(allLogs$);
   }
 
 
@@ -43,12 +45,13 @@ export class LogsComponent implements OnInit {
         console.log(this.logs);
         this.isLoading = false;
         this.showPagination = true;
+        this.subscriptions.add(this.currentPageLogs$)
       },
       error: (error) => {
         console.log(error.error.message);
       }
     }
-  )
+    )
 
   nextPage() {
     this.currentPage$.next(this.currentPage$.value + 1);
@@ -57,6 +60,14 @@ export class LogsComponent implements OnInit {
   previousPage() {
     if (this.currentPage$.value > 1) {
       this.currentPage$.next(this.currentPage$.value - 1);
+    }
+  }
+
+  ngOnDestroy(): void {
+    if (this.subscriptions) {
+      this.subscriptions.unsubscribe();
+      console.log('unsubscribed');
+      
     }
   }
 
