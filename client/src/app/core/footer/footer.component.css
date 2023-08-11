@@ -119,6 +119,10 @@ footer {
     color: #27bcda;
 }
 
+.time {
+    margin-right: 5rem;
+}
+
 @media (max-width:500px) {
     .footer-menu ul {
         display: flex;
