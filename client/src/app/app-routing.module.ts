@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './views/home/home.component';
 import { MissingComponent } from './views/missing/missing.component';
 import { SearchComponent } from './views/search/search.component';
+import { AboutComponent } from './views/about/about.component';
 
 export const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'home', },
@@ -14,6 +15,10 @@ export const routes: Routes = [
   {
     path: 'logs',
     loadChildren: () => import('./views/views.module').then(m => m.ViewsModule)
+},
+{
+  path: 'about',
+  component: AboutComponent,
 },
 {
   path: 'search',
