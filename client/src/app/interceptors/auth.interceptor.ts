@@ -15,7 +15,6 @@ export class AddHeaderInterceptor implements HttpInterceptor {
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     const token = this.sessionService.getToken();
-    //console.log(token);
     
     if (token) {
       request = request.clone({
@@ -27,7 +26,6 @@ export class AddHeaderInterceptor implements HttpInterceptor {
 
     request = request.clone({
       setHeaders: {
-        // 'Content-Type': 'multipart/form-data; boundary=MyBoundary123',
         'enctype': 'multipart/form-data'
       }
     });

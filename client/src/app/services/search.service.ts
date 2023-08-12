@@ -14,10 +14,6 @@ export class SearchService {
   itemsPerPage: number = 6;
   searchResult: Log[] = [];
   pages!: number;
-
-  // calcPageCount(): number {
-  //   return this.pages
-  // }
     
   getSearch(): any {
     return this.apiService.getSearchResult(this.searchParam, this.currentPage$.value);

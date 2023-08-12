@@ -10,7 +10,6 @@ travelR web application is my course project for the Angular course (June 2023) 
    - [Architecture-Overview](#architecture-overview)
 3. [Server](#server)
 4. [Database](#database)
-5. [Screenshots](#screenshots)
 
 ## Introduction
 The main goal of TravelR is to be like a bonfire place where you are welcome to share the magic of your journeys all over the world through the art of photography.
@@ -34,7 +33,8 @@ The application will automatically reload if you change any of the source files.
     
 
 ### Features 
-    The main feature of the application is fully working CRUD operations with image files.
+The main feature of the application is fully working CRUD operations with image files.
+
 * Home page - displays the last three logs from the database.
 * Logs page - Catalogue that displays all logs from the database in separate pages.
 * About page - Brief documentaton about the application.
@@ -52,7 +52,26 @@ The application will automatically reload if you change any of the source files.
 
 
 ### Architecture-Overview
+Angular applications are modular and Angular has its own modularity system called NgModules. NgModules are containers for a cohesive block of code dedicated to an application domain, a workflow, or a closely related set of capabilities. They can contain components, service providers, and other code files whose scope is defined by the containing NgModule. They can import functionality that is exported from other NgModules, and export selected functionality for use by other NgModules.
 
+* App Module - The root module and the entry point of the application. Imports all modular routes.
+* Auth Module - Holds the compomens and logic about user authentication, autorization and the corresponting routes.
+    - Register Component.
+    - Login Component.
+    - Profile Page Component.
+    - Edit Profile Component.
+    - User Routing Module.
+* Core Module - Loads Header and Footer Components.
+* Shared Module - Holds reusable comonents, needed for different parts of the application:
+    - Card Component
+    - Loader Component
+    - Modal Component
+    - Pagination Component
+* Views Module - Includes Components and logic about the Logs and loads the Logs Routing Module.
+* Guards - Route Guards that prevents unauthorized access, according to the users roles.
+* Interceptors - HttpInterceptor that attches the needed headers for authorized requests to the server.
+* Services - Holds the logic for communicating with the server and provide core functionalities across the components.
+* Types - Hollds all application interfaces.
 
 
 ## Server
@@ -70,4 +89,3 @@ The server is a RESTful API that is build with Node.js and Express.js. Run `npm 
 ## Database
 
 MongoDB with Mongoose is used for storing and managing the data.
-

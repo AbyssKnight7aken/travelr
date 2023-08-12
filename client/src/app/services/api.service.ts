@@ -11,7 +11,6 @@ import { Observable } from 'rxjs/internal/Observable';
 export class ApiService {
   constructor(private http: HttpClient) { }
   appUrl = environment.appUrl;
-  // headers = new HttpHeaders({ 'Content-Type': 'multipart/form-data', 'enctype': 'multipart/form-data'});
 
   getCount() {
     return this.http.get<number>(`${this.appUrl}/logs/count`);
@@ -34,7 +33,6 @@ export class ApiService {
   }
 
   create(body: Log) {
-    //return this.http.post<Log>(`${appUrl}/logs`, body, { headers: this.headers});
     return this.http.post<Log>(`${this.appUrl}/logs`, body);
   }
 
