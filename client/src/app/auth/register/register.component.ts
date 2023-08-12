@@ -54,17 +54,6 @@ export class RegisterComponent implements OnDestroy {
     formData.append('password', registerForm.value.password);
     formData.append('img', this.selectedFile);
 
-    // const { username, email, password, repass } = registerForm.value;
-
-
-    // const body: createUserData = {
-    //   username,
-    //   email,
-    //   password,
-    //   repass
-    // }
-    // console.log(registerForm.value);
-
     const createdUser$ = this.authService.register(formData as unknown as createUserData).subscribe({
       next: (newUser) => {
         console.log(newUser);

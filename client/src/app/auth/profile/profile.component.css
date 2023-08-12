@@ -257,6 +257,8 @@ section#hero {
 @media (max-width: 992px) {
 	.rescent {
 		flex-direction: column;
+		display: flex !important;
+		justify-content: center;
 	}
 
 	section#hero {

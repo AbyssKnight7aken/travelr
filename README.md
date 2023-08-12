@@ -48,6 +48,7 @@ The application will automatically reload if you change any of the source files.
     - shows detailed information and all comments about the log.
     - Loged in users can like, post comments and download the log image.
     - The creator of the log can post comments, download the log image, edit the log info and delete the log.
+* 404 page - Animated page, that pops up when there is no matching route.    
 
 
 ### Architecture-Overview

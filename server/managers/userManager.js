@@ -13,7 +13,7 @@ exports.register = async (username, email, password, img) => {
         throw new Error('Email is taken!');
     }
 
-    const user = await User.create({ username, email, password, password: await bcrypt.hash(password, 10) });
+    const user = await User.create({ username, email, password: await bcrypt.hash(password, 10), img });
     const result = createToken(user);
     return result;
 };

@@ -25,6 +25,7 @@ export class CardComponent {
   }
 
   getAvatarAsBase64(): string {
+    
     let binary = '';
     const bytes = new Uint8Array(this.log._ownerId.img.data.data);
     

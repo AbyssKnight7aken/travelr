@@ -22,7 +22,7 @@
     <div (click)="onBtnClick()" [ngClass]="isOpen ? 'dropdown_menu open' : 'dropdown_menu'">
         <li> <a routerLink="home">Home</a></li>
         <li> <a routerLink="logs">Logs</a></li>
-        <li *ngIf="isLoggedIn"> <a routerLink="create">Add Log</a></li>
+        <li *ngIf="isLoggedIn"> <a routerLink="/logs/create">Add Log</a></li>
         <li *ngIf="isLoggedIn"> <a routerLink="/user/profile">Profile</a></li>
         <li *ngIf="!isLoggedIn"><a routerLink="/user/login" class="action_btn">Sign IN / UP</a></li>
         <li *ngIf="isLoggedIn"><a href="javascript:void(0);" class="action_btn" (click)="logoutHandler()">Logout</a>

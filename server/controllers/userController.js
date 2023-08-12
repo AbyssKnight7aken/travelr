@@ -15,6 +15,8 @@ userController.post('/register',
     body('password').isLength({ min: 6 }).withMessage('Password must be at least 6 characters long'),
     async (req, res) => {
 
+        //console.log(req.body);
+
         try {
             const { errors } = validationResult(req);
             if (errors.length > 0) {
@@ -25,6 +27,8 @@ userController.post('/register',
                 "data": fs.readFileSync("uploads/" + req.file.filename),
                 "contentType": "image/png",
             }
+
+            
 
             const result = await userManager.register(req.body.username, req.body.email, req.body.password, img);
             res.cookie('token', result.accessToken);
