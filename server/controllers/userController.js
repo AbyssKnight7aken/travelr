@@ -2,6 +2,7 @@ const userController = require('express').Router();
 const { body, validationResult } = require('express-validator');
 const { parseError } = require('../util/parser');
 
+const bcrypt = require('bcrypt');
 const fs = require('fs');
 const path = require('path');
 
@@ -28,7 +29,7 @@ userController.post('/register',
                 "contentType": "image/png",
             }
 
-            
+
 
             const result = await userManager.register(req.body.username, req.body.email, req.body.password, img);
             res.cookie('token', result.accessToken);
@@ -54,8 +55,15 @@ userController.post('/login', async (req, res) => {
 
 
 userController.put('/update', async (req, res, next) => {
-    //console.log(req.user.email);
+    console.log(req.body.password);
     const user = await userManager.getUserInfo(req.user.email);
+
+    const isValid = await bcrypt.compare(req.body.password, user.password);
+
+    if (!isValid) {
+        return res.status(403).json({ message: 'Invalid password!' });
+    }
+
     //console.log(user);
     if (!user) {
         return res.status(403).json({ message: 'Unauthorized!' });
@@ -106,7 +114,7 @@ userController.get('/profile', async (req, res) => {
             //console.log(user);
             return res.status(200).json(user);
         }
-        
+
     } catch (err) {
         const message = parseError(err);
         console.log(message);

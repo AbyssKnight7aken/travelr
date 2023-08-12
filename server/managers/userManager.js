@@ -49,7 +49,7 @@ exports.update = async (email, userData) => {
 }
 
 exports.getUserInfo = async (email) => {
-    const user = await User.findOne({ email }).collation({ locale: 'en', strength: 2 });
+    const user = await User.findOne({ email }).select('+password').collation({ locale: 'en', strength: 2 });
 
     if (!user) {
         throw new Error('Unexisting User!');
